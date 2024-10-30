@@ -3,5 +3,5 @@
     <string name="drawer_open">Abrir Menú</string>
     <string name="drawer_close">Cerrar Menú</string>
     <string name="cat_logo_de_lbumes">Catálogo de Álbumes</string>
-
+    <string name="album_cover">Portada de álbumes</string>
 </resources>

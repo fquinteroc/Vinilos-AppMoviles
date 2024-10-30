@@ -65,4 +65,29 @@ class NetworkServiceAdapter constructor(context: Context) {
     private fun putRequest(path: String, body: JSONObject,  responseListener: Response.Listener<JSONObject>, errorListener: Response.ErrorListener ):JsonObjectRequest{
         return  JsonObjectRequest(Request.Method.PUT, BASE_URL+path, body, responseListener, errorListener)
     }
+
+    fun getAlbum(albumId: Int, onComplete: (album: Album) -> Unit, onError: (error: VolleyError) -> Unit) {
+        requestQueue.add(
+            JsonObjectRequest(
+                Request.Method.GET,
+                "$BASE_URL/albums/$albumId",
+                null,
+                Response.Listener { response ->
+                    val album = Album(
+                        albumId = response.getInt("id"),
+                        name = response.getString("name"),
+                        cover = response.getString("cover"),
+                        recordLabel = response.getString("recordLabel"),
+                        releaseDate = response.getString("releaseDate"),
+                        genre = response.getString("genre"),
+                        description = response.getString("description")
+                    )
+                    onComplete(album)
+                },
+                Response.ErrorListener {
+                    onError(it)
+                }
+            )
+        )
+    }
 }
