@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="album"
+            type="com.appsmoviles.grupo15.vinilos_app.models.Album" />
+    </data>
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:strokeColor="@color/silver_40"
+        app:strokeWidth="1dp"
+        app:cardElevation="4dp"
+        app:cardBackgroundColor="@color/primaryGray"
+        app:shapeAppearanceOverlay="@style/ShapeAppearance.MaterialComponents.MediumComponent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <TextView
+                android:id="@+id/albumTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-medium"
+                android:text="@{album.name}"
+                android:textColor="@color/textPrimary"
+                android:textSize="18sp"
+                android:layout_marginBottom="8dp"
+                android:textStyle="bold"
+                tools:text="Album Title" />
+
+            <TextView
+                android:id="@+id/albumDescription"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif"
+                android:text="@{album.description}"
+                android:textColor="@color/textSecondary"
+                android:textSize="14sp"
+                tools:text="This is a sample description of the album. It provides an overview of the album content." />
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+</layout>

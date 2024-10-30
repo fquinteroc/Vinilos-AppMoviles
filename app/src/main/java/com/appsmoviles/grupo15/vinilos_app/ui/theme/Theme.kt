@@ -12,19 +12,19 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 
 private val DarkColorScheme = darkColorScheme(
-    primary = Purple80,
-    secondary = PurpleGrey80,
-    tertiary = Pink80
+    primary = Gray80,
+    secondary = GrayGrey80,
+    tertiary = Silver80
 )
 
 private val LightColorScheme = lightColorScheme(
-    primary = Purple40,
-    secondary = PurpleGrey40,
-    tertiary = Pink40
+    primary = Gray40,
+    secondary = GrayGrey40,
+    tertiary = Silver40
 
-    /* Other default colors to override
-    background = Color(0xFFFFFBFE),
-    surface = Color(0xFFFFFBFE),
+    /* Otros colores por defecto para sobrescribir, si es necesario
+    background = Color(0xFFFAFAFA),
+    surface = Color(0xFFFAFAFA),
     onPrimary = Color.White,
     onSecondary = Color.White,
     onTertiary = Color.White,
@@ -36,7 +36,6 @@ private val LightColorScheme = lightColorScheme(
 @Composable
 fun Vinilos_AppTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
-    // Dynamic color is available on Android 12+
     dynamicColor: Boolean = true,
     content: @Composable () -> Unit
 ) {
