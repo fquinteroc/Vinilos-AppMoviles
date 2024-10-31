@@ -24,4 +24,8 @@
     <color name="grayGrey40">#585858</color>
     <color name="silver_40">#404040</color>
     <color name="silver_60">#A0A0A0</color>
+
+    <color name="lightGrayBackground">#F5F5F5</color>
+    <color name="mediumGraySecondary">#9E9E9E</color>
+    <color name="darkGrayPrimary">#424242</color>
 </resources>

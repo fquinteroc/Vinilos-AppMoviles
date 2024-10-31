@@ -70,12 +70,15 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
-        // Configura el listener para el menú de navegación
         navigationView.setNavigationItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.nav_logout -> {
-                    // Muestra nuevamente la pantalla de selección de rol
                     composeView.visibility = View.VISIBLE
+                    drawerLayout.closeDrawer(GravityCompat.START)
+                    true
+                }
+                R.id.albumFragment -> {
+                    navController.navigate(R.id.albumFragment)
                     drawerLayout.closeDrawer(GravityCompat.START)
                     true
                 }
