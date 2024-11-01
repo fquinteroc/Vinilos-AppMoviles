@@ -8,7 +8,10 @@ import com.appsmoviles.grupo15.vinilos_app.models.Album
 import com.bumptech.glide.Glide
 import com.appsmoviles.grupo15.vinilos_app.R
 
-class AlbumsAdapter(private var albums: List<Album>) : RecyclerView.Adapter<AlbumsAdapter.AlbumViewHolder>() {
+class AlbumsAdapter(
+    private var albums: List<Album>,
+    private val onAlbumClick: (Album) -> Unit
+) : RecyclerView.Adapter<AlbumsAdapter.AlbumViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AlbumViewHolder {
         val binding = AlbumItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -30,6 +33,10 @@ class AlbumsAdapter(private var albums: List<Album>) : RecyclerView.Adapter<Albu
         fun bind(album: Album) {
             binding.album = album
             binding.executePendingBindings()
+
+            itemView.setOnClickListener {
+                onAlbumClick(album)
+            }
 
             Glide.with(binding.albumCover.context)
                 .load(album.cover)
