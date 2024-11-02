@@ -3,7 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/albumFragment">
+    app:startDestination="@id/roleSelectionFragment">
+
+    <fragment
+        android:id="@+id/roleSelectionFragment"
+        android:name="com.appsmoviles.grupo15.vinilos_app.ui.screens.RoleSelectionFragment"
+        android:label="Selección de Rol"
+        tools:layout="@layout/role_selection_fragment" />
 
     <fragment
         android:id="@+id/albumFragment"

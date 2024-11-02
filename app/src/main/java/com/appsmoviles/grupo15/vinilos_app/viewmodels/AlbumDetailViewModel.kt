@@ -1,22 +1,40 @@
 package com.appsmoviles.grupo15.vinilos_app.viewmodels
+
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.appsmoviles.grupo15.vinilos_app.models.Album
-import com.appsmoviles.grupo15.vinilos_app.network.NetworkServiceAdapter
+import com.appsmoviles.grupo15.vinilos_app.repositories.AlbumDetailRepository
 
-class AlbumDetailViewModel (application: Application) : AndroidViewModel(application) {
+class AlbumDetailViewModel(application: Application) : AndroidViewModel(application) {
 
     private val _album = MutableLiveData<Album>()
     val album: LiveData<Album>
         get() = _album
 
+    private val _eventNetworkError = MutableLiveData<Boolean>()
+    val eventNetworkError: LiveData<Boolean>
+        get() = _eventNetworkError
+
+    private val _isLoading = MutableLiveData<Boolean>()
+    val isLoading: LiveData<Boolean> get() = _isLoading
+
+    private val albumDetailRepository = AlbumDetailRepository(application)
+
     fun getAlbumDetail(albumId: Int) {
-        NetworkServiceAdapter.getInstance(getApplication()).getAlbumDetail(albumId, { album ->
+        _isLoading.value = true
+        albumDetailRepository.getAlbumDetail(albumId, { album ->
             _album.postValue(album)
+            _eventNetworkError.value = false
+            _isLoading.value = false
         }, {
-            // Manejar errores
+            _eventNetworkError.value = true
+            _isLoading.value = false
         })
+    }
+
+    fun onNetworkErrorShown() {
+        _eventNetworkError.value = false
     }
 }
