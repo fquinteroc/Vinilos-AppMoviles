@@ -1,13 +1,12 @@
 package com.appsmoviles.grupo15.vinilos_app.ui
 
+import android.content.Context
 import android.os.Bundle
-import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.ui.platform.ComposeView
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.NavController
@@ -16,8 +15,6 @@ import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.appsmoviles.grupo15.vinilos_app.R
 import com.appsmoviles.grupo15.vinilos_app.databinding.ActivityMainBinding
-import com.appsmoviles.grupo15.vinilos_app.ui.screens.RoleSelectionScreen
-import com.appsmoviles.grupo15.vinilos_app.ui.theme.Vinilos_AppTheme
 import com.google.android.material.navigation.NavigationView
 
 class MainActivity : AppCompatActivity() {
@@ -25,7 +22,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var navController: NavController
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var binding: ActivityMainBinding
-    private var userRole: String? = null
+    private lateinit var textViewRoleHeader: TextView
+    private lateinit var toggle: ActionBarDrawerToggle
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,22 +39,30 @@ class MainActivity : AppCompatActivity() {
         val navigationView: NavigationView = binding.navigationView
         NavigationUI.setupWithNavController(navigationView, navController)
 
-        val toggle = ActionBarDrawerToggle(this, drawerLayout, binding.myToolbar, R.string.drawer_open, R.string.drawer_close)
+        toggle = ActionBarDrawerToggle(this, drawerLayout, binding.myToolbar, R.string.drawer_open, R.string.drawer_close)
         drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
 
         val headerView: View = binding.navigationView.getHeaderView(0)
-        val textViewRoleHeader = headerView.findViewById<TextView>(R.id.textViewRoleHeader)
+        textViewRoleHeader = headerView.findViewById(R.id.textViewRoleHeader)
+        updateRoleHeader()
 
-        val composeView = findViewById<ComposeView>(R.id.compose_view)
-        composeView.setContent {
-            Vinilos_AppTheme {
-                RoleSelectionScreen { role ->
-                    userRole = role
-                    updateNavHeaderRole(textViewRoleHeader, role)
-                    composeView.visibility = View.GONE
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            if (destination.id == R.id.albumDetailFragment) {
+                supportActionBar?.setDisplayHomeAsUpEnabled(true)
+                toggle.isDrawerIndicatorEnabled = false
+                toggle.setToolbarNavigationClickListener {
+                    navController.navigateUp()
+                }
+            } else {
+                supportActionBar?.setDisplayHomeAsUpEnabled(false)
+                toggle.isDrawerIndicatorEnabled = true
+                toggle.setToolbarNavigationClickListener(null)
+                if (destination.id == R.id.albumFragment) {
+                    updateRoleHeader()
                 }
             }
+            toggle.syncState()
         }
 
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
@@ -73,7 +79,7 @@ class MainActivity : AppCompatActivity() {
         navigationView.setNavigationItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.nav_logout -> {
-                    composeView.visibility = View.VISIBLE
+                    navController.navigate(R.id.roleSelectionFragment)
                     drawerLayout.closeDrawer(GravityCompat.START)
                     true
                 }
@@ -87,11 +93,17 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun updateNavHeaderRole(textView: TextView, role: String) {
-        textView.text = "Vinilos - $role"
+    fun updateRoleHeader() {
+        val sharedPref = getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
+        val selectedRole = sharedPref.getString("selected_role", "Usuario")
+        textViewRoleHeader.text = "Vinilos - $selectedRole"
     }
 
     override fun onSupportNavigateUp(): Boolean {
-        return NavigationUI.navigateUp(navController, drawerLayout) || super.onSupportNavigateUp()
+        return if (navController.currentDestination?.id == R.id.albumDetailFragment) {
+            navController.navigateUp() // Regresar al listado de álbumes
+        } else {
+            NavigationUI.navigateUp(navController, drawerLayout) || super.onSupportNavigateUp()
+        }
     }
 }

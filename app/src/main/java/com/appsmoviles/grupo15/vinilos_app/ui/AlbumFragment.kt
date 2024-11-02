@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ProgressBar
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -20,6 +21,7 @@ class AlbumFragment : Fragment() {
     private val albumViewModel: AlbumViewModel by viewModels()
     private lateinit var albumsAdapter: AlbumsAdapter
     private lateinit var recyclerView: RecyclerView
+    private lateinit var progressBar: ProgressBar
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -32,6 +34,8 @@ class AlbumFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         recyclerView = view.findViewById(R.id.albumsRv)
+        progressBar = view.findViewById(R.id.progressBar)
+
         albumsAdapter = AlbumsAdapter(listOf()) { album ->
             val bundle = Bundle().apply { putInt("albumId", album.albumId) }
             findNavController().navigate(R.id.action_albumFragment_to_albumDetailFragment, bundle)
@@ -39,14 +43,16 @@ class AlbumFragment : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.adapter = albumsAdapter
 
-        // Observa la lista de álbumes en el ViewModel
         albumViewModel.albums.observe(viewLifecycleOwner, Observer { albums ->
             albums?.let {
                 albumsAdapter.updateAlbums(it)
             }
         })
 
-        // Llama a la función para obtener los álbumes de la API
+        albumViewModel.isLoading.observe(viewLifecycleOwner, Observer { isLoading ->
+            progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
+        })
+
         albumViewModel.fetchAlbums()
     }
 }
