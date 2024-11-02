@@ -34,13 +34,16 @@ class AlbumDetailFragment : Fragment() {
         albumDetailViewModel.album.observe(viewLifecycleOwner, Observer { album ->
             album?.let {
                 binding.album = it
-
                 Glide.with(binding.albumCover.context)
                     .load(it.cover)
                     .placeholder(R.drawable.ic_logo)
                     .error(R.drawable.error)
                     .into(binding.albumCover)
             }
+        })
+
+        albumDetailViewModel.isLoading.observe(viewLifecycleOwner, Observer { isLoading ->
+            binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
         })
     }
 }
