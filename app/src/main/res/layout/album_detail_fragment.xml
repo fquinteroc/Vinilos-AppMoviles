@@ -1,0 +1,118 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="album"
+            type="com.appsmoviles.grupo15.vinilos_app.models.Album" />
+    </data>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/lightGrayBackground">
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@color/lightGrayBackground"
+            android:visibility="gone" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+                <ImageView
+                    android:id="@+id/albumCover"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    android:layout_marginBottom="16dp"
+                    android:scaleType="centerCrop"
+                    app:srcCompat="@drawable/ic_logo" />
+
+                <TextView
+                    android:id="@+id/albumName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{album.name}"
+                    android:textSize="26sp"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="8dp"
+                    android:textColor="@color/darkGrayPrimary" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Fecha de lanzamiento:"
+                    android:textStyle="bold"
+                    android:textSize="14sp"
+                    android:layout_marginBottom="4dp"
+                    android:textColor="@color/mediumGraySecondary" />
+                <TextView
+                    android:id="@+id/albumReleaseDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{album.releaseDate}"
+                    android:layout_marginBottom="16dp"
+                    android:textSize="16sp"
+                    android:textColor="@color/darkGrayPrimary" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Género:"
+                    android:textStyle="bold"
+                    android:textSize="14sp"
+                    android:layout_marginBottom="4dp"
+                    android:textColor="@color/mediumGraySecondary" />
+                <TextView
+                    android:id="@+id/albumGenre"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{album.genre}"
+                    android:layout_marginBottom="16dp"
+                    android:textSize="16sp"
+                    android:textColor="@color/darkGrayPrimary" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Sello discográfico:"
+                    android:textStyle="bold"
+                    android:textSize="14sp"
+                    android:layout_marginBottom="4dp"
+                    android:textColor="@color/mediumGraySecondary" />
+                <TextView
+                    android:id="@+id/albumRecordLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{album.recordLabel}"
+                    android:layout_marginBottom="16dp"
+                    android:textSize="16sp"
+                    android:textColor="@color/darkGrayPrimary" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Descripción:"
+                    android:textStyle="bold"
+                    android:textSize="14sp"
+                    android:layout_marginBottom="4dp"
+                    android:textColor="@color/mediumGraySecondary" />
+                <TextView
+                    android:id="@+id/albumDescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@{album.description}"
+                    android:layout_marginBottom="16dp"
+                    android:textSize="16sp"
+                    android:textColor="@color/darkGrayPrimary" />
+            </LinearLayout>
+        </ScrollView>
+    </FrameLayout>
+</layout>
