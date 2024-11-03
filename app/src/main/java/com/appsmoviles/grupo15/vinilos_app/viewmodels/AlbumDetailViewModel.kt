@@ -22,6 +22,10 @@ class AlbumDetailViewModel(application: Application) : AndroidViewModel(applicat
 
     private val albumDetailRepository = AlbumDetailRepository(application)
 
+    private val _networkErrorMessage = MutableLiveData<String?>()
+    val networkErrorMessage: LiveData<String?> get() = _networkErrorMessage
+
+
     fun getAlbumDetail(albumId: Int) {
         _isLoading.value = true
         albumDetailRepository.getAlbumDetail(albumId, { album ->
@@ -31,10 +35,16 @@ class AlbumDetailViewModel(application: Application) : AndroidViewModel(applicat
         }, {
             _eventNetworkError.value = true
             _isLoading.value = false
+            _networkErrorMessage.value = "Error al cargar el detalle del álbum, por favor intenta de nuevo."
         })
     }
 
     fun onNetworkErrorShown() {
-        _eventNetworkError.value = false
+        _eventNetworkError.value = null
     }
+
+    fun resetNetworkErrorMessage() {
+        _networkErrorMessage.value = null
+    }
+
 }

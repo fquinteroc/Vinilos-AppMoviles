@@ -21,6 +21,9 @@ class AlbumViewModel(application: Application) : AndroidViewModel(application) {
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> get() = _isLoading
 
+    private val _networkErrorMessage = MutableLiveData<String?>()
+    val networkErrorMessage: LiveData<String?> get() = _networkErrorMessage
+
     // Instancia de AlbumRepository
     private val albumRepository = AlbumRepository(application)
 
@@ -38,6 +41,7 @@ class AlbumViewModel(application: Application) : AndroidViewModel(application) {
         }, {
             _eventNetworkError.value = true
             _isLoading.value = false
+            _networkErrorMessage.value = "Error al cargar el listado de álbumes, por favor intenta de nuevo."
         })
     }
 
@@ -47,5 +51,9 @@ class AlbumViewModel(application: Application) : AndroidViewModel(application) {
 
     fun onNetworkErrorShown() {
         _isNetworkErrorShown.value = true
+    }
+
+    fun resetNetworkErrorMessage() {
+        _networkErrorMessage.value = null
     }
 }
