@@ -40,7 +40,7 @@ class AlbumDetailViewModel(application: Application) : AndroidViewModel(applicat
     }
 
     fun onNetworkErrorShown() {
-        _eventNetworkError.value = null
+        _eventNetworkError.value = false
     }
 
     fun resetNetworkErrorMessage() {
