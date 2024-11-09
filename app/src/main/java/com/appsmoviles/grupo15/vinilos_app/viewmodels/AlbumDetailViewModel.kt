@@ -4,8 +4,13 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.appsmoviles.grupo15.vinilos_app.models.Album
 import com.appsmoviles.grupo15.vinilos_app.repositories.AlbumDetailRepository
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import kotlinx.coroutines.Dispatchers
+
 
 class AlbumDetailViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -28,15 +33,20 @@ class AlbumDetailViewModel(application: Application) : AndroidViewModel(applicat
 
     fun getAlbumDetail(albumId: Int) {
         _isLoading.value = true
-        albumDetailRepository.getAlbumDetail(albumId, { album ->
-            _album.postValue(album)
-            _eventNetworkError.value = false
-            _isLoading.value = false
-        }, {
-            _eventNetworkError.value = true
-            _isLoading.value = false
-            _networkErrorMessage.value = "Error al cargar el detalle del álbum, por favor intenta de nuevo."
-        })
+        viewModelScope.launch {
+            try {
+                val album = withContext(Dispatchers.IO) {
+                    albumDetailRepository.getAlbumDetail(albumId)
+                }
+                _album.postValue(album)
+                _eventNetworkError.postValue(false)
+            } catch (e: Exception) {
+                _eventNetworkError.postValue(true)
+                _networkErrorMessage.postValue("Error al cargar el detalle del álbum, por favor intenta de nuevo.")
+            } finally {
+                _isLoading.postValue(false)
+            }
+        }
     }
 
     fun onNetworkErrorShown() {
