@@ -6,7 +6,7 @@ Esta primera entrega de la aplicación muestra un listado de álbumes musicales 
 
 Para construir y ejecutar esta aplicación localmente, asegúrate de cumplir con los siguientes requisitos:
 
-- JDK 1 actualizado e instalado en la máquina y variables de entorno de Java configuradas.
+- JDK 17 actualizado e instalado en la máquina y variables de entorno de Java configuradas.
 - Android Studio instalado y configurado en su más reciente versión.
 - Un dispositivo Android virtual o físico con Android Lollipop (API 21) o superior, con la depuración por Android Debug Bridge (ADB) habilitada.
 
