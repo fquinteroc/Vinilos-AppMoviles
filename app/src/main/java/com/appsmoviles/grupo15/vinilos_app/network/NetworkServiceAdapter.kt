@@ -1,7 +1,6 @@
 package com.appsmoviles.grupo15.vinilos_app.network
 
 import android.content.Context
-import android.util.Log
 import com.android.volley.Request
 import com.android.volley.RequestQueue
 import com.android.volley.Response
@@ -12,7 +11,9 @@ import com.android.volley.toolbox.Volley
 import com.appsmoviles.grupo15.vinilos_app.models.Album
 import org.json.JSONArray
 import org.json.JSONObject
-import java.awt.font.NumericShaper
+import kotlin.coroutines.resume
+import kotlin.coroutines.resumeWithException
+import kotlin.coroutines.suspendCoroutine
 
 class NetworkServiceAdapter constructor(context: Context) {
     companion object{
@@ -29,20 +30,35 @@ class NetworkServiceAdapter constructor(context: Context) {
         // applicationContext keeps you from leaking the Activity or BroadcastReceiver if someone passes one in.
         Volley.newRequestQueue(context.applicationContext)
     }
-    fun getAlbums(onComplete:(resp:List<Album>)->Unit, onError: (error:VolleyError)->Unit){
+    suspend fun getAlbums(): List<Album> = suspendCoroutine { cont ->
         requestQueue.add(getRequest("albums",
             Response.Listener<String> { response ->
-                val resp = JSONArray(response)
-                val list = mutableListOf<Album>()
-                for (i in 0 until resp.length()) {
-                    val item = resp.getJSONObject(i)
-                    list.add(i, Album(albumId = item.getInt("id"),name = item.getString("name"), cover = item.getString("cover"), recordLabel = item.getString("recordLabel"), releaseDate = item.getString("releaseDate"), genre = item.getString("genre"), description = item.getString("description")))
+                try {
+                    val resp = JSONArray(response)
+                    val list = mutableListOf<Album>()
+                    for (i in 0 until resp.length()) {
+                        val item = resp.getJSONObject(i)
+                        list.add(
+                            Album(
+                                albumId = item.getInt("id"),
+                                name = item.getString("name"),
+                                cover = item.getString("cover"),
+                                recordLabel = item.getString("recordLabel"),
+                                releaseDate = item.getString("releaseDate"),
+                                genre = item.getString("genre"),
+                                description = item.getString("description")
+                            )
+                        )
+                    }
+                    cont.resume(list)
+                } catch (e: Exception) {
+                    cont.resumeWithException(e)
                 }
-                onComplete(list)
             },
             Response.ErrorListener {
-                onError(it)
-            }))
+                cont.resumeWithException(it)
+            }
+        ))
     }
 
 
@@ -66,23 +82,27 @@ class NetworkServiceAdapter constructor(context: Context) {
         return  JsonObjectRequest(Request.Method.PUT, BASE_URL+path, body, responseListener, errorListener)
     }
 
-    fun getAlbumDetail(albumId: Int, onComplete: (Album) -> Unit, onError: (VolleyError) -> Unit) {
+    suspend fun getAlbumDetail(albumId: Int): Album = suspendCoroutine { cont ->
         requestQueue.add(getRequest("albums/$albumId",
             Response.Listener<String> { response ->
-                val item = JSONObject(response)
-                val album = Album(
-                    albumId = item.getInt("id"),
-                    name = item.getString("name"),
-                    cover = item.getString("cover"),
-                    recordLabel = item.getString("recordLabel"),
-                    releaseDate = item.getString("releaseDate"),
-                    genre = item.getString("genre"),
-                    description = item.getString("description")
-                )
-                onComplete(album)
+                try {
+                    val item = JSONObject(response)
+                    val album = Album(
+                        albumId = item.getInt("id"),
+                        name = item.getString("name"),
+                        cover = item.getString("cover"),
+                        recordLabel = item.getString("recordLabel"),
+                        releaseDate = item.getString("releaseDate"),
+                        genre = item.getString("genre"),
+                        description = item.getString("description")
+                    )
+                    cont.resume(album)
+                } catch (e: Exception) {
+                    cont.resumeWithException(e)
+                }
             },
             Response.ErrorListener {
-                onError(it)
+                cont.resumeWithException(it)
             }
         ))
     }

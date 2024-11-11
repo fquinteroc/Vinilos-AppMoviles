@@ -7,6 +7,8 @@ import com.appsmoviles.grupo15.vinilos_app.databinding.AlbumItemBinding
 import com.appsmoviles.grupo15.vinilos_app.models.Album
 import com.bumptech.glide.Glide
 import com.appsmoviles.grupo15.vinilos_app.R
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.request.RequestOptions
 
 class AlbumsAdapter(
     private var albums: List<Album>,
@@ -42,6 +44,17 @@ class AlbumsAdapter(
                 .load(album.cover)
                 .placeholder(R.drawable.ic_logo)
                 .error(R.drawable.error)
+                .into(binding.albumCover)
+
+            Glide.with(binding.albumCover.context)
+                .load(album.cover)
+                .apply(
+                    RequestOptions()
+                        .placeholder(R.drawable.ic_logo)
+                        .error(R.drawable.error)
+                        .diskCacheStrategy(DiskCacheStrategy.ALL)
+                        .skipMemoryCache(false)
+                )
                 .into(binding.albumCover)
 
             val maxLength = 80
