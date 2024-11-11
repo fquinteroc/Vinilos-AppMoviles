@@ -12,6 +12,8 @@ import com.appsmoviles.grupo15.vinilos_app.databinding.AlbumDetailFragmentBindin
 import com.appsmoviles.grupo15.vinilos_app.viewmodels.AlbumDetailViewModel
 import com.bumptech.glide.Glide
 import com.appsmoviles.grupo15.vinilos_app.R
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.request.RequestOptions
 
 class AlbumDetailFragment : Fragment() {
 
@@ -39,6 +41,17 @@ class AlbumDetailFragment : Fragment() {
                     .load(it.cover)
                     .placeholder(R.drawable.ic_logo)
                     .error(R.drawable.error)
+                    .into(binding.albumCover)
+
+                Glide.with(binding.albumCover.context)
+                    .load(it.cover)
+                    .apply(
+                        RequestOptions()
+                            .placeholder(R.drawable.ic_logo)
+                            .error(R.drawable.error)
+                            .diskCacheStrategy(DiskCacheStrategy.ALL)
+                            .skipMemoryCache(false)
+                    )
                     .into(binding.albumCover)
             }
         })

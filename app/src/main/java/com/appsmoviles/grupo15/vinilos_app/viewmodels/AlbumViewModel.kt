@@ -6,6 +6,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.appsmoviles.grupo15.vinilos_app.models.Album
 import com.appsmoviles.grupo15.vinilos_app.repositories.AlbumRepository
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class AlbumViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -24,7 +28,6 @@ class AlbumViewModel(application: Application) : AndroidViewModel(application) {
     private val _networkErrorMessage = MutableLiveData<String?>()
     val networkErrorMessage: LiveData<String?> get() = _networkErrorMessage
 
-    // Instancia de AlbumRepository
     private val albumRepository = AlbumRepository(application)
 
     init {
@@ -33,16 +36,21 @@ class AlbumViewModel(application: Application) : AndroidViewModel(application) {
 
     private fun refreshDataFromNetwork() {
         _isLoading.value = true
-        albumRepository.refreshData({ albums ->
-            _albums.postValue(albums)
-            _eventNetworkError.value = false
-            _isNetworkErrorShown.value = false
-            _isLoading.value = false
-        }, {
-            _eventNetworkError.value = true
-            _isLoading.value = false
-            _networkErrorMessage.value = "Error al cargar el listado de álbumes, por favor intenta de nuevo."
-        })
+        viewModelScope.launch {
+            try {
+                val albums = withContext(Dispatchers.IO) {
+                    albumRepository.refreshData()
+                }
+                _albums.postValue(albums)
+                _eventNetworkError.postValue(false)
+                _isNetworkErrorShown.postValue(false)
+            } catch (e: Exception) {
+                _eventNetworkError.postValue(true)
+                _networkErrorMessage.postValue("Error al cargar el listado de álbumes, por favor intenta de nuevo.")
+            } finally {
+                _isLoading.postValue(false)
+            }
+        }
     }
 
     fun fetchAlbums() {
