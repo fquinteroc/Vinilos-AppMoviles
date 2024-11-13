@@ -19,8 +19,6 @@ class AlbumDetailViewModel(application: Application) : AndroidViewModel(applicat
         get() = _album
 
     private val _eventNetworkError = MutableLiveData<Boolean>()
-    val eventNetworkError: LiveData<Boolean>
-        get() = _eventNetworkError
 
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> get() = _isLoading
@@ -47,10 +45,6 @@ class AlbumDetailViewModel(application: Application) : AndroidViewModel(applicat
                 _isLoading.postValue(false)
             }
         }
-    }
-
-    fun onNetworkErrorShown() {
-        _eventNetworkError.value = false
     }
 
     fun resetNetworkErrorMessage() {
