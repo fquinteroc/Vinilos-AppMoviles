@@ -4,8 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center"
-    android:padding="24dp"
-    android:background="@color/white"> <!-- Fondo blanco -->
+    android:padding="24dp">
 
     <!-- Título de bienvenida -->
     <TextView
