@@ -5,12 +5,15 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.appsmoviles.grupo15.vinilos_app.database.dao.AlbumsDao
+import com.appsmoviles.grupo15.vinilos_app.database.dao.ArtistsDao
 import com.appsmoviles.grupo15.vinilos_app.models.Album
+import com.appsmoviles.grupo15.vinilos_app.models.Artist
 
-@Database(entities = [Album::class], version = 1, exportSchema = false)
+@Database(entities = [Album::class, Artist::class], version = 2, exportSchema = false)
 abstract class VinilosRoomDatabase : RoomDatabase() {
 
     abstract fun albumsDao(): AlbumsDao
+    abstract fun artistsDao(): ArtistsDao
 
     companion object {
         @Volatile
@@ -22,7 +25,9 @@ abstract class VinilosRoomDatabase : RoomDatabase() {
                     context.applicationContext,
                     VinilosRoomDatabase::class.java,
                     "vinyls_database"
-                ).build()
+                )
+                    .fallbackToDestructiveMigration()
+                    .build()
                 INSTANCE = instance
                 instance
             }

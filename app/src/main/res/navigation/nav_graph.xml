@@ -33,4 +33,11 @@
             app:argType="integer" />
     </fragment>
 
+    <fragment
+        android:id="@+id/artistFragment"
+        android:name="com.appsmoviles.grupo15.vinilos_app.ui.ArtistFragment"
+        android:label="Artistas"
+        tools:layout="@layout/artist_fragment" />
+
+
 </navigation>
