@@ -19,7 +19,20 @@ class ArtistViewModel(application: Application) : AndroidViewModel(application) 
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> get() = _isLoading
 
+    private val _eventNetworkError = MutableLiveData<Boolean>(false)
+    val eventNetworkError: LiveData<Boolean> get() = _eventNetworkError
+
+    private val _isNetworkErrorShown = MutableLiveData<Boolean>(false)
+    val isNetworkErrorShown: LiveData<Boolean> get() = _isNetworkErrorShown
+
+    private val _networkErrorMessage = MutableLiveData<String?>()
+    val networkErrorMessage: LiveData<String?> get() = _networkErrorMessage
+
     private val artistRepository = ArtistRepository(application)
+
+    init {
+        fetchArtists()
+    }
 
     fun fetchArtists() {
         _isLoading.value = true
@@ -29,11 +42,23 @@ class ArtistViewModel(application: Application) : AndroidViewModel(application) 
                     artistRepository.refreshData()
                 }
                 _artists.postValue(artists)
+                _eventNetworkError.postValue(false)
+                _isNetworkErrorShown.postValue(false)
             } catch (e: Exception) {
                 _artists.postValue(emptyList())
+                _eventNetworkError.postValue(true)
+                _networkErrorMessage.postValue("Error al cargar el listado de artistas, por favor intenta de nuevo.")
             } finally {
                 _isLoading.postValue(false)
             }
         }
+    }
+
+    fun onNetworkErrorShown() {
+        _isNetworkErrorShown.value = true
+    }
+
+    fun resetNetworkErrorMessage() {
+        _networkErrorMessage.value = null
     }
 }

@@ -54,7 +54,7 @@ class ArtistAdapter(
                 )
                 .into(binding.artistImage)
 
-            val maxLength = 100
+            val maxLength = 80
             val descriptionText = artist.description
             val description = if (descriptionText.length > maxLength) {
                 "${descriptionText.substring(0, maxLength)}... (Ver más)"

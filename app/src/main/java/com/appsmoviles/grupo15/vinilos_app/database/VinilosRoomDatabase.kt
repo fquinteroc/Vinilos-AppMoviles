@@ -25,9 +25,7 @@ abstract class VinilosRoomDatabase : RoomDatabase() {
                     context.applicationContext,
                     VinilosRoomDatabase::class.java,
                     "vinyls_database"
-                )
-                    .fallbackToDestructiveMigration()
-                    .build()
+                ).fallbackToDestructiveMigration().build()
                 INSTANCE = instance
                 instance
             }

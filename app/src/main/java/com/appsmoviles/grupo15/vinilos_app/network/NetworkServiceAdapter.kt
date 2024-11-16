@@ -118,7 +118,7 @@ class NetworkServiceAdapter constructor(context: Context) {
                         val item = resp.getJSONObject(i)
                         list.add(
                             Artist(
-                                id = item.getInt("id"),
+                                artistId = item.getInt("id"),
                                 name = item.getString("name"),
                                 image = item.getString("image"),
                                 description = item.getString("description"),
@@ -127,6 +127,51 @@ class NetworkServiceAdapter constructor(context: Context) {
                         )
                     }
                     cont.resume(list)
+                } catch (e: Exception) {
+                    cont.resumeWithException(e)
+                }
+            },
+            Response.ErrorListener {
+                cont.resumeWithException(it)
+            }
+        ))
+    }
+
+    suspend fun getArtistDetail(artistId: Int): Artist = suspendCoroutine { cont ->
+        requestQueue.add(getRequest("musicians/$artistId",
+            Response.Listener<String> { response ->
+                try {
+                    val item = JSONObject(response)
+                    val artist = Artist(
+                        artistId = item.getInt("id"),
+                        name = item.getString("name"),
+                        image = item.getString("image"),
+                        description = item.getString("description"),
+                        birthDate = item.getString("birthDate")
+                    )
+                    cont.resume(artist)
+                } catch (e: Exception) {
+                    cont.resumeWithException(e)
+                }
+            },
+            Response.ErrorListener {
+                cont.resumeWithException(it)
+            }
+        ))
+    }
+
+    suspend fun getArtistAlbums(artistId: Int): List<Int> = suspendCoroutine { cont ->
+        requestQueue.add(getRequest("musicians/$artistId",
+            Response.Listener<String> { response ->
+                try {
+                    val item = JSONObject(response)
+                    val albumsArray = item.getJSONArray("albums")
+                    val albumIds = mutableListOf<Int>()
+                    for (i in 0 until albumsArray.length()) {
+                        val album = albumsArray.getJSONObject(i)
+                        albumIds.add(album.getInt("id"))
+                    }
+                    cont.resume(albumIds)
                 } catch (e: Exception) {
                     cont.resumeWithException(e)
                 }

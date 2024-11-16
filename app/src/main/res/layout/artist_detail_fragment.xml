@@ -1,0 +1,132 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="artist"
+            type="com.appsmoviles.grupo15.vinilos_app.models.Artist" />
+    </data>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/lightGrayBackground">
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="gone" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="8dp"
+                    android:background="@color/primaryGray"
+                    android:elevation="4dp"
+                    android:layout_marginBottom="16dp"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
+                    android:gravity="center_vertical">
+
+                    <ImageView
+                        android:id="@+id/artistImage"
+                        android:layout_width="120dp"
+                        android:layout_height="120dp"
+                        android:scaleType="centerCrop"
+                        android:layout_marginEnd="16dp"
+                        app:srcCompat="@drawable/ic_user"
+                        android:background="@drawable/ic_user"
+                        android:elevation="6dp" />
+
+                    <TextView
+                        android:id="@+id/artistName"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@{artist.name}"
+                        android:textSize="22sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/white"
+                        android:maxLines="2"
+                        android:ellipsize="end" />
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Fecha de Nacimiento:"
+                    android:textStyle="bold"
+                    android:textSize="14sp"
+                    android:layout_marginBottom="4dp"
+                    android:textColor="@color/mediumGraySecondary" />
+
+                <TextView
+                    android:id="@+id/artistBirthDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{artist.birthDate}"
+                    android:layout_marginBottom="16dp"
+                    android:textSize="16sp"
+                    android:textColor="@color/darkGrayPrimary" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Descripción:"
+                    android:textStyle="bold"
+                    android:textSize="14sp"
+                    android:layout_marginBottom="4dp"
+                    android:textColor="@color/mediumGraySecondary" />
+
+                <TextView
+                    android:id="@+id/artistDescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@{artist.description}"
+                    android:textSize="16sp"
+                    android:textColor="@color/darkGrayPrimary"
+                    android:lineSpacingExtra="4dp"
+                    android:letterSpacing="0.02"
+                    android:maxLines="10"
+                    android:ellipsize="end"
+                    android:layout_marginBottom="16dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Álbumes del Artista"
+                    android:textStyle="bold"
+                    android:textSize="18sp"
+                    android:textColor="@color/mediumGraySecondary"
+                    android:layout_marginBottom="8dp" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/artistAlbumsRecyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:clipToPadding="false"
+                    android:paddingStart="8dp"
+                    android:paddingEnd="8dp"
+                    tools:listitem="@layout/album_item"
+                    android:scrollbars="horizontal" />
+
+            </LinearLayout>
+        </ScrollView>
+    </FrameLayout>
+</layout>

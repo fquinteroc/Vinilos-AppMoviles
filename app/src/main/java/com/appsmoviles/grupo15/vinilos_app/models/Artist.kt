@@ -5,7 +5,7 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "artists_table")
 data class Artist(
-    @PrimaryKey val id: Int,
+    @PrimaryKey val artistId: Int,
     val name: String,
     val image: String,
     val description: String,
