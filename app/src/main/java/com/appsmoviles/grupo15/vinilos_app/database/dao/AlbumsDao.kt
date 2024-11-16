@@ -19,4 +19,7 @@ interface AlbumsDao {
 
     @Query("SELECT * FROM albums_table WHERE albumId = :albumId")
     suspend fun getAlbumDetail(albumId: Int): Album?
+
+    @Query("SELECT * FROM albums_table WHERE albumId IN (:albumIds)")
+    suspend fun getAlbumsByArtist(albumIds: List<Int>): List<Album>
 }

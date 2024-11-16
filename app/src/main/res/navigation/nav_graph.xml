@@ -37,7 +37,19 @@
         android:id="@+id/artistFragment"
         android:name="com.appsmoviles.grupo15.vinilos_app.ui.ArtistFragment"
         android:label="Artistas"
-        tools:layout="@layout/artist_fragment" />
+        tools:layout="@layout/artist_fragment">
+        <action
+            android:id="@+id/action_artistFragment_to_artistDetailFragment"
+            app:destination="@id/artistDetailFragment" />
+    </fragment>
 
-
+    <fragment
+        android:id="@+id/artistDetailFragment"
+        android:name="com.appsmoviles.grupo15.vinilos_app.ui.ArtistDetailFragment"
+        android:label="Detalle del Artista"
+        tools:layout="@layout/artist_detail_fragment">
+        <argument
+            android:name="artistId"
+            app:argType="integer" />
+    </fragment>
 </navigation>

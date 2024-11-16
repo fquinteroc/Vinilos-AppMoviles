@@ -48,7 +48,7 @@ class MainActivity : AppCompatActivity() {
         updateRoleHeader()
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
-            if (destination.id == R.id.albumDetailFragment) {
+            if (destination.id == R.id.albumDetailFragment || destination.id == R.id.artistDetailFragment) {
                 supportActionBar?.setDisplayHomeAsUpEnabled(true)
                 toggle.isDrawerIndicatorEnabled = false
                 toggle.setToolbarNavigationClickListener {
@@ -57,8 +57,8 @@ class MainActivity : AppCompatActivity() {
             } else {
                 supportActionBar?.setDisplayHomeAsUpEnabled(false)
                 toggle.isDrawerIndicatorEnabled = true
-                toggle.setToolbarNavigationClickListener(null)
-                if (destination.id == R.id.albumFragment) {
+                toggle.toolbarNavigationClickListener = null
+                if (destination.id == R.id.albumFragment || destination.id == R.id.artistFragment) {
                     updateRoleHeader()
                 }
             }
