@@ -52,4 +52,11 @@
             android:name="artistId"
             app:argType="integer" />
     </fragment>
+    <fragment
+        android:id="@+id/collectorFragment"
+        android:name="com.appsmoviles.grupo15.vinilos_app.ui.CollectorFragment"
+        android:label="Coleccionistas"
+        tools:layout="@layout/collector_fragment">
+    </fragment>
+
 </navigation>
