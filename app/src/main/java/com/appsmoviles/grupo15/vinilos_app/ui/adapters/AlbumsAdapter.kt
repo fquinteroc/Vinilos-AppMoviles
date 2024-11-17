@@ -2,6 +2,7 @@ package com.appsmoviles.grupo15.vinilos_app.ui.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.appsmoviles.grupo15.vinilos_app.databinding.AlbumItemBinding
 import com.appsmoviles.grupo15.vinilos_app.models.Album
@@ -27,8 +28,11 @@ class AlbumsAdapter(
     override fun getItemCount(): Int = albums.size
 
     fun updateAlbums(newAlbums: List<Album>) {
+        val diffCallback = AlbumsDiffCallback(albums, newAlbums)
+        val diffResult = DiffUtil.calculateDiff(diffCallback)
+
         albums = newAlbums
-        notifyDataSetChanged()
+        diffResult.dispatchUpdatesTo(this)
     }
 
     inner class AlbumViewHolder(private val binding: AlbumItemBinding) : RecyclerView.ViewHolder(binding.root) {

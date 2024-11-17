@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.ksp)
 }
 
 android {
@@ -72,6 +73,7 @@ dependencies {
     implementation(libs.material)
     implementation(libs.androidx.navigation.ui.ktx)
     implementation(libs.androidx.espresso.contrib)
+    implementation(libs.androidx.cardview)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -79,7 +81,12 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
-    implementation ("com.github.bumptech.glide:glide:4.12.0")
-    annotationProcessor ("com.github.bumptech.glide:compiler:4.12.0")
-    implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
+    implementation(libs.glide)
+    annotationProcessor(libs.glide.compiler)
+    implementation(libs.kotlinx.coroutines.android)
+
+    implementation(libs.room.ktx)
+    implementation(libs.room.runtime)
+    ksp(libs.room.compiler)
+    androidTestImplementation(libs.room.testing)
 }

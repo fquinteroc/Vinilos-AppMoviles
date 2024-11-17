@@ -3,19 +3,19 @@ package com.appsmoviles.grupo15.vinilos_app.repositories
 import android.app.Application
 import com.appsmoviles.grupo15.vinilos_app.models.Album
 import com.appsmoviles.grupo15.vinilos_app.network.NetworkServiceAdapter
-import com.appsmoviles.grupo15.vinilos_app.network.CacheManager
+import com.appsmoviles.grupo15.vinilos_app.database.VinilosRoomDatabase
 
-class AlbumRepository(val application: Application) {
+class AlbumRepository(private val application: Application) {
+
+    private val albumsDao = VinilosRoomDatabase.getDatabase(application).albumsDao()
 
     suspend fun refreshData(): List<Album> {
-        // Verificar si el listado de álbumes está en caché
-        val cachedAlbums = CacheManager.getInstance(application.applicationContext).getAlbumList()
-        return if (cachedAlbums != null) {
-            cachedAlbums
-        } else {
+        val cachedAlbums = albumsDao.getAlbums()
+        return cachedAlbums.ifEmpty {
             val albums = NetworkServiceAdapter.getInstance(application).getAlbums()
-            CacheManager.getInstance(application.applicationContext).addAlbumList(albums)
-            albums
+            val sortedAlbums = albums.sortedBy { it.name }
+            albumsDao.insertAll(sortedAlbums)
+            sortedAlbums
         }
     }
 }

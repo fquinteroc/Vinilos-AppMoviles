@@ -15,6 +15,7 @@ import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.appsmoviles.grupo15.vinilos_app.R
 import com.appsmoviles.grupo15.vinilos_app.databinding.ActivityMainBinding
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
 
 class MainActivity : AppCompatActivity() {
@@ -47,8 +48,40 @@ class MainActivity : AppCompatActivity() {
         textViewRoleHeader = headerView.findViewById(R.id.textViewRoleHeader)
         updateRoleHeader()
 
+        // Manejar la navegación del BottomNavigationView
+        val bottomNavigationView: BottomNavigationView = binding.bottomNavigation
+        bottomNavigationView.setOnItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.bottom_nav_album -> {
+                    navController.navigate(R.id.albumFragment)
+                    true
+                }
+                R.id.bottom_nav_artist -> {
+                    navController.navigate(R.id.artistFragment)
+                    true
+                }
+                R.id.bottom_nav_collector -> {
+                    navController.navigate(R.id.collectorFragment)
+                    true
+                }
+                R.id.bottom_nav_logout -> {
+                    navController.navigate(R.id.action_global_roleSelectionFragment)
+                    true
+                }
+                else -> false
+            }
+        }
+
         navController.addOnDestinationChangedListener { _, destination, _ ->
-            if (destination.id == R.id.albumDetailFragment) {
+            if (destination.id == R.id.roleSelectionFragment) {
+                binding.bottomNavigation.visibility = View.GONE
+                supportActionBar?.hide()
+            } else {
+                binding.bottomNavigation.visibility = View.VISIBLE
+                supportActionBar?.show()
+            }
+
+            if (destination.id in listOf(R.id.albumDetailFragment, R.id.artistDetailFragment)) {
                 supportActionBar?.setDisplayHomeAsUpEnabled(true)
                 toggle.isDrawerIndicatorEnabled = false
                 toggle.setToolbarNavigationClickListener {
@@ -57,10 +90,7 @@ class MainActivity : AppCompatActivity() {
             } else {
                 supportActionBar?.setDisplayHomeAsUpEnabled(false)
                 toggle.isDrawerIndicatorEnabled = true
-                toggle.setToolbarNavigationClickListener(null)
-                if (destination.id == R.id.albumFragment) {
-                    updateRoleHeader()
-                }
+                toggle.toolbarNavigationClickListener = null
             }
             toggle.syncState()
         }
@@ -79,12 +109,25 @@ class MainActivity : AppCompatActivity() {
         navigationView.setNavigationItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.nav_logout -> {
-                    navController.navigate(R.id.roleSelectionFragment)
+                    navController.navigate(R.id.action_global_roleSelectionFragment)
                     drawerLayout.closeDrawer(GravityCompat.START)
                     true
                 }
                 R.id.albumFragment -> {
                     navController.navigate(R.id.albumFragment)
+                    binding.bottomNavigation.selectedItemId = R.id.bottom_nav_album
+                    drawerLayout.closeDrawer(GravityCompat.START)
+                    true
+                }
+                R.id.artistFragment -> {
+                    navController.navigate(R.id.artistFragment)
+                    binding.bottomNavigation.selectedItemId = R.id.bottom_nav_artist
+                    drawerLayout.closeDrawer(GravityCompat.START)
+                    true
+                }
+                R.id.collectorFragment -> {
+                    navController.navigate(R.id.collectorFragment)
+                    binding.bottomNavigation.selectedItemId = R.id.bottom_nav_collector
                     drawerLayout.closeDrawer(GravityCompat.START)
                     true
                 }
@@ -93,15 +136,15 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun updateRoleHeader() {
+    private fun updateRoleHeader() {
         val sharedPref = getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
         val selectedRole = sharedPref.getString("selected_role", "Usuario")
         textViewRoleHeader.text = "Vinilos - $selectedRole"
     }
 
     override fun onSupportNavigateUp(): Boolean {
-        return if (navController.currentDestination?.id == R.id.albumDetailFragment) {
-            navController.navigateUp() // Regresar al listado de álbumes
+        return if (navController.currentDestination?.id in listOf(R.id.albumDetailFragment, R.id.artistDetailFragment)) {
+            navController.navigateUp()
         } else {
             NavigationUI.navigateUp(navController, drawerLayout) || super.onSupportNavigateUp()
         }
