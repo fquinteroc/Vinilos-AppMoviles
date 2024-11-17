@@ -2,12 +2,12 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/albumFragment"
-        android:title="@string/cat_logo_de_lbumes"
+        android:title="Álbumes"
         android:icon="@drawable/ic_album" />
     <item
         android:id="@+id/artistFragment"
         android:title="Artistas"
-        android:icon="@drawable/ic_user" />
+        android:icon="@drawable/ic_artist" />
     <item
         android:id="@+id/collectorFragment"
         android:title="Coleccionistas"
