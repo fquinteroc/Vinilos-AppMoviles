@@ -15,6 +15,7 @@ import org.json.JSONObject
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
+import com.appsmoviles.grupo15.vinilos_app.models.Collector
 
 class NetworkServiceAdapter constructor(context: Context) {
     companion object{
@@ -172,6 +173,34 @@ class NetworkServiceAdapter constructor(context: Context) {
                         albumIds.add(album.getInt("id"))
                     }
                     cont.resume(albumIds)
+                } catch (e: Exception) {
+                    cont.resumeWithException(e)
+                }
+            },
+            Response.ErrorListener {
+                cont.resumeWithException(it)
+            }
+        ))
+    }
+
+    suspend fun getCollectors(): List<Collector> = suspendCoroutine { cont ->
+        requestQueue.add(getRequest("collectors",
+            Response.Listener<String> { response ->
+                try {
+                    val resp = JSONArray(response)
+                    val collectors = mutableListOf<Collector>()
+                    for (i in 0 until resp.length()) {
+                        val item = resp.getJSONObject(i)
+                        collectors.add(
+                            Collector(
+                                id = item.getInt("id"),
+                                name = item.getString("name"),
+                                telephone = item.getString("telephone"),
+                                email = item.getString("email")
+                            )
+                        )
+                    }
+                    cont.resume(collectors)
                 } catch (e: Exception) {
                     cont.resumeWithException(e)
                 }

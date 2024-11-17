@@ -58,7 +58,7 @@ class MainActivity : AppCompatActivity() {
                 supportActionBar?.setDisplayHomeAsUpEnabled(false)
                 toggle.isDrawerIndicatorEnabled = true
                 toggle.toolbarNavigationClickListener = null
-                if (destination.id == R.id.albumFragment || destination.id == R.id.artistFragment) {
+                if (destination.id == R.id.albumFragment || destination.id == R.id.artistFragment || destination.id == R.id.collectorFragment) {
                     updateRoleHeader()
                 }
             }
@@ -93,6 +93,11 @@ class MainActivity : AppCompatActivity() {
                     drawerLayout.closeDrawer(GravityCompat.START)
                     true
                 }
+                R.id.collectorFragment -> {
+                    navController.navigate(R.id.collectorFragment)
+                    drawerLayout.closeDrawer(GravityCompat.START)
+                    true
+                }
                 else -> false
             }
         }
@@ -105,8 +110,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onSupportNavigateUp(): Boolean {
-        return if (navController.currentDestination?.id == R.id.albumDetailFragment) {
-            navController.navigateUp() // Regresar al listado de álbumes
+        return if (navController.currentDestination?.id in listOf(R.id.albumDetailFragment, R.id.artistDetailFragment)) {
+            navController.navigateUp()
         } else {
             NavigationUI.navigateUp(navController, drawerLayout) || super.onSupportNavigateUp()
         }

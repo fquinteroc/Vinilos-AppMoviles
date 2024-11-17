@@ -1,0 +1,56 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="collector"
+            type="com.appsmoviles.grupo15.vinilos_app.models.Collector" />
+    </data>
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="6dp"
+        app:strokeColor="@color/silver_60"
+        app:strokeWidth="1.5dp"
+        app:cardBackgroundColor="@color/primaryGray">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <TextView
+                android:id="@+id/collectorName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{collector.name}"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@color/textPrimary"
+                tools:text="Nombre del Coleccionista" />
+
+            <TextView
+                android:id="@+id/collectorTelephone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{collector.telephone}"
+                android:textSize="14sp"
+                android:textColor="@color/textSecondary"
+                tools:text="Teléfono: 3502457896" />
+
+            <TextView
+                android:id="@+id/collectorEmail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{collector.email}"
+                android:textSize="14sp"
+                android:textColor="@color/textSecondary"
+                tools:text="Correo: coleccionista@correo.com" />
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+</layout>
