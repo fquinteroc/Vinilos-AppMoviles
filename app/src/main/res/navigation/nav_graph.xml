@@ -59,4 +59,10 @@
         tools:layout="@layout/collector_fragment">
     </fragment>
 
+    <action
+        android:id="@+id/action_global_roleSelectionFragment"
+        app:destination="@id/roleSelectionFragment"
+        app:popUpTo="@id/roleSelectionFragment"
+        app:popUpToInclusive="true" />
+
 </navigation>

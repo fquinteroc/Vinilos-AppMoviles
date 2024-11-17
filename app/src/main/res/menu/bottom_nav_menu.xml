@@ -1,0 +1,18 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/bottom_nav_album"
+        android:icon="@drawable/ic_album"
+        android:title="Álbumes" />
+    <item
+        android:id="@+id/bottom_nav_artist"
+        android:icon="@drawable/ic_artist"
+        android:title="Artistas" />
+    <item
+        android:id="@+id/bottom_nav_collector"
+        android:icon="@drawable/ic_user"
+        android:title="Coleccionistas" />
+    <item
+        android:id="@+id/bottom_nav_logout"
+        android:title="Cerrar sesión"
+        android:icon="@drawable/ic_logout" />
+</menu>
