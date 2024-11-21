@@ -211,5 +211,88 @@ class NetworkServiceAdapter constructor(context: Context) {
         ))
     }
 
+    suspend fun getCollectorDetail(collectorId: Int): Collector = suspendCoroutine { cont ->
+        requestQueue.add(getRequest("collectors/$collectorId",
+            Response.Listener<String> { response ->
+                try {
+                    val item = JSONObject(response)
+                    val collector = Collector(
+                        id = item.getInt("id"),
+                        name = item.getString("name"),
+                        telephone = item.getString("telephone"),
+                        email = item.getString("email")
+                    )
+                    cont.resume(collector)
+                } catch (e: Exception) {
+                    cont.resumeWithException(e)
+                }
+            },
+            Response.ErrorListener {
+                cont.resumeWithException(it)
+            }
+        ))
+    }
+
+    suspend fun getCollectorArtists(collectorId: Int): List<Artist> = suspendCoroutine { cont ->
+        requestQueue.add(getRequest("collectors/$collectorId/performers",
+            Response.Listener<String> { response ->
+                try {
+                    val resp = JSONArray(response)
+                    val artists = mutableListOf<Artist>()
+                    for (i in 0 until resp.length()) {
+                        val item = resp.getJSONObject(i)
+                        artists.add(
+                            Artist(
+                                artistId = item.getInt("id"),
+                                name = item.getString("name"),
+                                image = item.getString("image"),
+                                description = item.getString("description"),
+                                birthDate = item.optString("creationDate", "Desconocido")
+                            )
+                        )
+                    }
+                    cont.resume(artists)
+                } catch (e: Exception) {
+                    cont.resumeWithException(e)
+                }
+            },
+            Response.ErrorListener {
+                cont.resumeWithException(it)
+            }
+        ))
+    }
+
+
+    suspend fun getCollectorAlbums(collectorId: Int): List<Album> = suspendCoroutine { cont ->
+        requestQueue.add(getRequest("collectors/$collectorId/albums",
+            Response.Listener<String> { response ->
+                try {
+                    val resp = JSONArray(response)
+                    val albums = mutableListOf<Album>()
+                    for (i in 0 until resp.length()) {
+                        val item = resp.getJSONObject(i)
+                        val album = item.getJSONObject("album")
+                        albums.add(
+                            Album(
+                                albumId = album.getInt("id"),
+                                name = album.getString("name"),
+                                cover = album.getString("cover"),
+                                releaseDate = album.getString("releaseDate"),
+                                description = album.getString("description"),
+                                genre = album.getString("genre"),
+                                recordLabel = album.getString("recordLabel")
+                            )
+                        )
+                    }
+                    cont.resume(albums)
+                } catch (e: Exception) {
+                    cont.resumeWithException(e)
+                }
+            },
+            Response.ErrorListener {
+                cont.resumeWithException(it)
+            }
+        ))
+    }
 
 }

@@ -81,7 +81,7 @@ class MainActivity : AppCompatActivity() {
                 supportActionBar?.show()
             }
 
-            if (destination.id in listOf(R.id.albumDetailFragment, R.id.artistDetailFragment)) {
+            if (destination.id in listOf(R.id.albumDetailFragment, R.id.artistDetailFragment, R.id.collectorDetailFragment)) {
                 supportActionBar?.setDisplayHomeAsUpEnabled(true)
                 toggle.isDrawerIndicatorEnabled = false
                 toggle.setToolbarNavigationClickListener {
@@ -143,7 +143,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onSupportNavigateUp(): Boolean {
-        return if (navController.currentDestination?.id in listOf(R.id.albumDetailFragment, R.id.artistDetailFragment)) {
+        return if (navController.currentDestination?.id in listOf(R.id.albumDetailFragment, R.id.artistDetailFragment, R.id.collectorDetailFragment)) {
             navController.navigateUp()
         } else {
             NavigationUI.navigateUp(navController, drawerLayout) || super.onSupportNavigateUp()
