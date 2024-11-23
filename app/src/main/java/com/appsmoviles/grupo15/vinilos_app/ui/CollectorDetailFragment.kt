@@ -100,7 +100,6 @@ class CollectorDetailFragment : Fragment() {
         val swipeRefreshLayout = binding.swipeRefreshLayout
 
         swipeRefreshLayout.setOnRefreshListener {
-            // Realiza una nueva llamada a la API para obtener los datos
             collectorDetailViewModel.getCollectorDetail(collectorId)
 
             // Detén el indicador de actualización cuando los datos se actualicen

@@ -10,13 +10,18 @@ class CollectorRepository(private val application: Application) {
     private val collectorsDao = VinilosRoomDatabase.getDatabase(application).collectorsDao()
 
     suspend fun refreshData(): List<Collector> {
-        val cachedCollectors = collectorsDao.getCollectors()
-        return if (cachedCollectors.isNotEmpty()) {
-            cachedCollectors
-        } else {
+        return try {
             val collectors = NetworkServiceAdapter.getInstance(application).getCollectors()
+            collectorsDao.deleteAll()
             collectorsDao.insertAll(collectors)
             collectors
+        } catch (e: Exception) {
+            val cachedCollectors = collectorsDao.getCollectors()
+            if (cachedCollectors.isNotEmpty()) {
+                cachedCollectors
+            } else {
+                throw e
+            }
         }
     }
 }

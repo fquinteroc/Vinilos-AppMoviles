@@ -31,25 +31,38 @@ class ArtistFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Configuración del adaptador y RecyclerView
+        setupRecyclerView()
+        setupSwipeToRefresh()
+        setupObservers()
+
+        artistViewModel.fetchArtists()
+    }
+
+    private fun setupRecyclerView() {
         adapter = ArtistAdapter(listOf()) { artist ->
             val bundle = Bundle().apply { putInt("artistId", artist.artistId) }
             findNavController().navigate(R.id.action_artistFragment_to_artistDetailFragment, bundle)
         }
         binding.artistsRecyclerView.layoutManager = LinearLayoutManager(context)
         binding.artistsRecyclerView.adapter = adapter
+    }
 
-        // Observador de la lista de artistas
+    private fun setupSwipeToRefresh() {
+        binding.swipeRefreshLayout.setOnRefreshListener {
+            artistViewModel.fetchArtists()
+        }
+    }
+
+    private fun setupObservers() {
         artistViewModel.artists.observe(viewLifecycleOwner) { artists ->
             adapter.updateArtists(artists)
+            binding.swipeRefreshLayout.isRefreshing = false
         }
 
-        // Observador del estado de carga
         artistViewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
             binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
         }
 
-        // Manejo de errores de red
         artistViewModel.eventNetworkError.observe(viewLifecycleOwner) { isError ->
             if (isError && !artistViewModel.isNetworkErrorShown.value!!) {
                 Toast.makeText(context, artistViewModel.networkErrorMessage.value, Toast.LENGTH_LONG).show()

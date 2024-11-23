@@ -31,15 +31,32 @@ class CollectorFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setupRecyclerView()
+        setupSwipeToRefresh()
+        setupObservers()
+
+        collectorViewModel.fetchCollectors()
+    }
+
+    private fun setupRecyclerView() {
         adapter = CollectorAdapter(listOf()) { collector ->
             val bundle = Bundle().apply { putInt("collectorId", collector.id) }
             findNavController().navigate(R.id.action_collectorFragment_to_collectorDetailFragment, bundle)
         }
         binding.collectorsRecyclerView.layoutManager = LinearLayoutManager(context)
         binding.collectorsRecyclerView.adapter = adapter
+    }
 
+    private fun setupSwipeToRefresh() {
+        binding.swipeRefreshLayout.setOnRefreshListener {
+            collectorViewModel.fetchCollectors()
+        }
+    }
+
+    private fun setupObservers() {
         collectorViewModel.collectors.observe(viewLifecycleOwner) { collectors ->
             adapter.updateCollectors(collectors)
+            binding.swipeRefreshLayout.isRefreshing = false // Detén el SwipeRefreshLayout
         }
 
         collectorViewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
@@ -52,7 +69,5 @@ class CollectorFragment : Fragment() {
                 collectorViewModel.resetNetworkErrorMessage()
             }
         }
-
-        collectorViewModel.fetchCollectors()
     }
 }

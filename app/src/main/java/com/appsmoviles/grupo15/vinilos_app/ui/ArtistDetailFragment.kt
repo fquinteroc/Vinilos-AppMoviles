@@ -13,8 +13,6 @@ import com.appsmoviles.grupo15.vinilos_app.viewmodels.ArtistDetailViewModel
 import com.bumptech.glide.Glide
 import com.appsmoviles.grupo15.vinilos_app.R
 import com.appsmoviles.grupo15.vinilos_app.ui.adapters.AlbumsAdapter
-import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.bumptech.glide.request.RequestOptions
 
 class ArtistDetailFragment : Fragment() {
 
@@ -34,24 +32,27 @@ class ArtistDetailFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val artistId = arguments?.getInt("artistId") ?: 0
+        setupRecyclerView()
+        setupSwipeToRefresh(artistId)
+        setupObservers()
         artistDetailViewModel.getArtistDetail(artistId)
+    }
 
+    private fun setupRecyclerView() {
         albumsAdapter = AlbumsAdapter(listOf()) {}
-
-
         binding.artistAlbumsRecyclerView.apply {
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
             adapter = albumsAdapter
         }
+    }
 
-        artistDetailViewModel.artist.observe(viewLifecycleOwner) { artist ->
-            binding.artist = artist
+    private fun setupSwipeToRefresh(artistId: Int) {
+        binding.swipeRefreshLayout.setOnRefreshListener {
+            artistDetailViewModel.getArtistDetail(artistId)
         }
+    }
 
-        artistDetailViewModel.artistAlbums.observe(viewLifecycleOwner) { albums ->
-            albumsAdapter.updateAlbums(albums)
-        }
-
+    private fun setupObservers() {
         artistDetailViewModel.artist.observe(viewLifecycleOwner) { artist ->
             artist?.let {
                 binding.artist = it
@@ -60,18 +61,13 @@ class ArtistDetailFragment : Fragment() {
                     .placeholder(R.drawable.ic_logo)
                     .error(R.drawable.error)
                     .into(binding.artistImage)
-
-                Glide.with(binding.artistImage.context)
-                    .load(it.image)
-                    .apply(
-                        RequestOptions()
-                            .placeholder(R.drawable.ic_logo)
-                            .error(R.drawable.error)
-                            .diskCacheStrategy(DiskCacheStrategy.ALL)
-                            .skipMemoryCache(false)
-                    )
-                    .into(binding.artistImage)
             }
+            binding.swipeRefreshLayout.isRefreshing = false
+        }
+
+        artistDetailViewModel.artistAlbums.observe(viewLifecycleOwner) { albums ->
+            albumsAdapter.updateAlbums(albums)
+            binding.swipeRefreshLayout.isRefreshing = false
         }
 
         artistDetailViewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->

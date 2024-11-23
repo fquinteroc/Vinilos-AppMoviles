@@ -10,12 +10,15 @@ class AlbumRepository(private val application: Application) {
     private val albumsDao = VinilosRoomDatabase.getDatabase(application).albumsDao()
 
     suspend fun refreshData(): List<Album> {
-        val cachedAlbums = albumsDao.getAlbums()
-        return cachedAlbums.ifEmpty {
+        return try {
             val albums = NetworkServiceAdapter.getInstance(application).getAlbums()
             val sortedAlbums = albums.sortedBy { it.name }
+
             albumsDao.insertAll(sortedAlbums)
+
             sortedAlbums
+        } catch (e: Exception) {
+            albumsDao.getAlbums()
         }
     }
 }
