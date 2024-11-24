@@ -3,6 +3,7 @@ package com.appsmoviles.grupo15.vinilos_app.repositories
 import android.app.Application
 import com.appsmoviles.grupo15.vinilos_app.database.VinilosRoomDatabase
 import com.appsmoviles.grupo15.vinilos_app.models.Album
+import com.appsmoviles.grupo15.vinilos_app.models.Track
 import com.appsmoviles.grupo15.vinilos_app.network.NetworkServiceAdapter
 
 class AlbumDetailRepository(val application: Application) {
@@ -20,6 +21,10 @@ class AlbumDetailRepository(val application: Application) {
             albumsDao.insertAll(listOf(album))
             album
         }
+    }
+
+    suspend fun getAlbumTracks(albumId: Int): List<Track> {
+        return NetworkServiceAdapter.getInstance(application).getAlbumTracks(albumId)
     }
 }
 

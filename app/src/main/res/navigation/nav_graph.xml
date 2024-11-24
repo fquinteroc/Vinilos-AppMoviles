@@ -39,6 +39,11 @@
         <argument
             android:name="albumId"
             app:argType="integer" />
+
+        <!-- Navegación a Agregar Canción -->
+        <action
+            android:id="@+id/action_albumDetailFragment_to_addTrackFragment"
+            app:destination="@id/addTrackFragment" />
     </fragment>
 
     <!-- Crear Álbum -->
@@ -92,10 +97,29 @@
             app:argType="integer" />
     </fragment>
 
+    <!-- Agregar Canción -->
+    <fragment
+        android:id="@+id/addTrackFragment"
+        android:name="com.appsmoviles.grupo15.vinilos_app.ui.AddTrackFragment"
+        android:label="Agregar Canción"
+        tools:layout="@layout/add_track_fragment">
+        <argument
+            android:name="albumId"
+            app:argType="integer" />
+
+        <!-- Regresar a Detalle del Álbum -->
+        <action
+            android:id="@+id/action_addTrackFragment_to_albumDetailFragment"
+            app:destination="@id/albumDetailFragment"
+            app:popUpTo="@id/albumDetailFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+
     <!-- Acción global -->
     <action
         android:id="@+id/action_global_roleSelectionFragment"
         app:destination="@id/roleSelectionFragment"
         app:popUpTo="@id/roleSelectionFragment"
         app:popUpToInclusive="true" />
+
 </navigation>

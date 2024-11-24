@@ -16,6 +16,7 @@ import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
 import com.appsmoviles.grupo15.vinilos_app.models.Collector
+import com.appsmoviles.grupo15.vinilos_app.models.Track
 
 class NetworkServiceAdapter constructor(context: Context) {
     companion object{
@@ -311,6 +312,45 @@ class NetworkServiceAdapter constructor(context: Context) {
             },
             Response.ErrorListener {
                 cont.resumeWithException(it)
+            }
+        ))
+    }
+
+    suspend fun getAlbumTracks(albumId: Int): List<Track> = suspendCoroutine { cont ->
+        requestQueue.add(getRequest("albums/$albumId/tracks",
+            Response.Listener<String> { response ->
+                try {
+                    val resp = JSONArray(response)
+                    val tracks = mutableListOf<Track>()
+                    for (i in 0 until resp.length()) {
+                        val item = resp.getJSONObject(i)
+                        tracks.add(
+                            Track(
+                                id = item.getInt("id"),
+                                name = item.getString("name"),
+                                duration = item.getString("duration")
+                            )
+                        )
+                    }
+                    cont.resume(tracks)
+                } catch (e: Exception) {
+                    cont.resumeWithException(e)
+                }
+            },
+            Response.ErrorListener {
+                cont.resumeWithException(it)
+            }
+        ))
+    }
+
+    fun postTrack(body: JSONObject, albumId: Int, onComplete: (resp: JSONObject) -> Unit, onError: (error: VolleyError) -> Unit) {
+        requestQueue.add(postRequest("albums/$albumId/tracks",
+            body,
+            Response.Listener<JSONObject> { response ->
+                onComplete(response)
+            },
+            Response.ErrorListener {
+                onError(it)
             }
         ))
     }

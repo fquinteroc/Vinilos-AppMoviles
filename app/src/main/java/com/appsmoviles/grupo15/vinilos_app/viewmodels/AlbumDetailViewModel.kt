@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.appsmoviles.grupo15.vinilos_app.models.Album
+import com.appsmoviles.grupo15.vinilos_app.models.Track
 import com.appsmoviles.grupo15.vinilos_app.repositories.AlbumDetailRepository
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -28,6 +29,9 @@ class AlbumDetailViewModel(application: Application) : AndroidViewModel(applicat
     private val _networkErrorMessage = MutableLiveData<String?>()
     val networkErrorMessage: LiveData<String?> get() = _networkErrorMessage
 
+    private val _tracks = MutableLiveData<List<Track>>()
+    val tracks: LiveData<List<Track>> get() = _tracks
+
 
     fun getAlbumDetail(albumId: Int) {
         _isLoading.value = true
@@ -49,6 +53,19 @@ class AlbumDetailViewModel(application: Application) : AndroidViewModel(applicat
 
     fun resetNetworkErrorMessage() {
         _networkErrorMessage.value = null
+    }
+
+    fun getAlbumTracks(albumId: Int) {
+        viewModelScope.launch {
+            try {
+                val tracks = withContext(Dispatchers.IO) {
+                    albumDetailRepository.getAlbumTracks(albumId)
+                }
+                _tracks.postValue(tracks)
+            } catch (e: Exception) {
+                _networkErrorMessage.postValue("Error al cargar las canciones, por favor intenta de nuevo.")
+            }
+        }
     }
 
 }
