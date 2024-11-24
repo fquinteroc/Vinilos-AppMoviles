@@ -81,7 +81,7 @@ class MainActivity : AppCompatActivity() {
                 supportActionBar?.show()
             }
 
-            if (destination.id in listOf(R.id.albumDetailFragment, R.id.artistDetailFragment, R.id.collectorDetailFragment)) {
+            if (destination.id in listOf(R.id.albumDetailFragment, R.id.artistDetailFragment, R.id.collectorDetailFragment, R.id.createAlbumFragment)) {
                 supportActionBar?.setDisplayHomeAsUpEnabled(true)
                 toggle.isDrawerIndicatorEnabled = false
                 toggle.setToolbarNavigationClickListener {
@@ -111,6 +111,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.nav_logout -> {
                     navController.navigate(R.id.action_global_roleSelectionFragment)
                     drawerLayout.closeDrawer(GravityCompat.START)
+                    updateRoleHeader()
                     true
                 }
                 R.id.albumFragment -> {
@@ -136,7 +137,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun updateRoleHeader() {
+    fun updateRoleHeader() {
         val sharedPref = getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
         val selectedRole = sharedPref.getString("selected_role", "Usuario")
         textViewRoleHeader.text = "Vinilos - $selectedRole"

@@ -21,4 +21,9 @@ class AlbumRepository(private val application: Application) {
             albumsDao.getAlbums()
         }
     }
+
+    suspend fun createAlbum(album: Album) {
+        NetworkServiceAdapter.getInstance(application).createAlbum(album)
+    }
+
 }

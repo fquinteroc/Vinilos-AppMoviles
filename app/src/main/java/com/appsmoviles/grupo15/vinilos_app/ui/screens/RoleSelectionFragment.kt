@@ -9,6 +9,7 @@ import android.widget.Button
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.appsmoviles.grupo15.vinilos_app.R
+import com.appsmoviles.grupo15.vinilos_app.ui.MainActivity
 
 class RoleSelectionFragment : Fragment() {
 
@@ -36,6 +37,9 @@ class RoleSelectionFragment : Fragment() {
             apply()
         }
 
+        (activity as? MainActivity)?.updateRoleHeader()
+
         findNavController().navigate(R.id.albumFragment)
     }
+
 }

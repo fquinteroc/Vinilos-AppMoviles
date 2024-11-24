@@ -5,34 +5,50 @@
     android:id="@+id/nav_graph"
     app:startDestination="@id/roleSelectionFragment">
 
+    <!-- Selección de Rol -->
     <fragment
         android:id="@+id/roleSelectionFragment"
         android:name="com.appsmoviles.grupo15.vinilos_app.ui.screens.RoleSelectionFragment"
         android:label="Selección de Rol"
         tools:layout="@layout/role_selection_fragment" />
 
+    <!-- Listado de Álbumes -->
     <fragment
         android:id="@+id/albumFragment"
         android:name="com.appsmoviles.grupo15.vinilos_app.ui.AlbumFragment"
         android:label="Álbumes"
         tools:layout="@layout/album_fragment">
 
+        <!-- Navegación a Detalle de Álbum -->
         <action
             android:id="@+id/action_albumFragment_to_albumDetailFragment"
             app:destination="@id/albumDetailFragment" />
+
+        <!-- Navegación a Crear Álbum -->
+        <action
+            android:id="@+id/action_albumFragment_to_createAlbumFragment"
+            app:destination="@id/createAlbumFragment" />
     </fragment>
 
+    <!-- Detalle de Álbum -->
     <fragment
         android:id="@+id/albumDetailFragment"
         android:name="com.appsmoviles.grupo15.vinilos_app.ui.AlbumDetailFragment"
         android:label="Detalle del Álbum"
         tools:layout="@layout/album_detail_fragment">
-
         <argument
             android:name="albumId"
             app:argType="integer" />
     </fragment>
 
+    <!-- Crear Álbum -->
+    <fragment
+        android:id="@+id/createAlbumFragment"
+        android:name="com.appsmoviles.grupo15.vinilos_app.ui.CreateAlbumFragment"
+        android:label="Crear Álbum"
+        tools:layout="@layout/create_album_fragment" />
+
+    <!-- Listado de Artistas -->
     <fragment
         android:id="@+id/artistFragment"
         android:name="com.appsmoviles.grupo15.vinilos_app.ui.ArtistFragment"
@@ -43,6 +59,7 @@
             app:destination="@id/artistDetailFragment" />
     </fragment>
 
+    <!-- Detalle de Artista -->
     <fragment
         android:id="@+id/artistDetailFragment"
         android:name="com.appsmoviles.grupo15.vinilos_app.ui.ArtistDetailFragment"
@@ -53,6 +70,7 @@
             app:argType="integer" />
     </fragment>
 
+    <!-- Listado de Coleccionistas -->
     <fragment
         android:id="@+id/collectorFragment"
         android:name="com.appsmoviles.grupo15.vinilos_app.ui.CollectorFragment"
@@ -63,6 +81,7 @@
             app:destination="@id/collectorDetailFragment" />
     </fragment>
 
+    <!-- Detalle de Coleccionista -->
     <fragment
         android:id="@+id/collectorDetailFragment"
         android:name="com.appsmoviles.grupo15.vinilos_app.ui.CollectorDetailFragment"
@@ -73,6 +92,7 @@
             app:argType="integer" />
     </fragment>
 
+    <!-- Acción global -->
     <action
         android:id="@+id/action_global_roleSelectionFragment"
         app:destination="@id/roleSelectionFragment"
