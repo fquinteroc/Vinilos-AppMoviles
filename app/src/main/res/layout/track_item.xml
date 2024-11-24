@@ -1,0 +1,33 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="track"
+            type="com.appsmoviles.grupo15.vinilos_app.models.Track" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="8dp">
+
+        <TextView
+            android:id="@+id/trackName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{track.name}"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:textColor="@color/darkGrayPrimary" />
+
+        <TextView
+            android:id="@+id/trackDuration"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text='@{"Duración: " + track.duration}'
+            android:textSize="14sp"
+            android:textColor="@color/mediumGraySecondary" />
+    </LinearLayout>
+</layout>
