@@ -295,4 +295,25 @@ class NetworkServiceAdapter constructor(context: Context) {
         ))
     }
 
+    suspend fun createAlbum(album: Album): Unit = suspendCoroutine { cont ->
+        val body = JSONObject().apply {
+            put("name", album.name)
+            put("releaseDate", album.releaseDate)
+            put("description", album.description)
+            put("genre", album.genre)
+            put("recordLabel", album.recordLabel)
+            put("cover", album.cover)
+        }
+
+        requestQueue.add(postRequest("albums", body,
+            Response.Listener {
+                cont.resume(Unit)
+            },
+            Response.ErrorListener {
+                cont.resumeWithException(it)
+            }
+        ))
+    }
+
+
 }

@@ -12,4 +12,5 @@
     <color name="mediumGraySecondary">#9E9E9E</color>
     <color name="darkGrayPrimary">#424242</color>
     <color name="colorOnSurfaceDark">#212121</color>
+    <color name="silverGray">#A8A8A8</color>
 </resources>

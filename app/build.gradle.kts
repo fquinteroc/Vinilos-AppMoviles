@@ -87,6 +87,7 @@ dependencies {
     annotationProcessor(libs.glide.compiler)
     implementation(libs.kotlinx.coroutines.android)
 
+
     implementation(libs.room.ktx)
     implementation(libs.room.runtime)
     ksp(libs.room.compiler)

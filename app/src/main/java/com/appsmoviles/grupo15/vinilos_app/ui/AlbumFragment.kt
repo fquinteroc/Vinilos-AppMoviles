@@ -1,5 +1,6 @@
 package com.appsmoviles.grupo15.vinilos_app.ui
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -32,9 +33,18 @@ class AlbumFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // Leer el rol seleccionado y ajustar visibilidad del botón
+        val sharedPref = requireActivity().getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
+        val selectedRole = sharedPref.getString("selected_role", "Usuario")
+        binding.fabAddAlbum.visibility = if (selectedRole == "Coleccionista") View.VISIBLE else View.GONE
+
         setupRecyclerView()
         setupSwipeToRefresh()
         setupObservers()
+
+        binding.fabAddAlbum.setOnClickListener {
+            findNavController().navigate(R.id.action_albumFragment_to_createAlbumFragment)
+        }
 
         albumViewModel.fetchAlbums()
     }
