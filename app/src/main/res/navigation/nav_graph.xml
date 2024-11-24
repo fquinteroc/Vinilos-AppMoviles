@@ -52,11 +52,25 @@
             android:name="artistId"
             app:argType="integer" />
     </fragment>
+
     <fragment
         android:id="@+id/collectorFragment"
         android:name="com.appsmoviles.grupo15.vinilos_app.ui.CollectorFragment"
         android:label="Coleccionistas"
         tools:layout="@layout/collector_fragment">
+        <action
+            android:id="@+id/action_collectorFragment_to_collectorDetailFragment"
+            app:destination="@id/collectorDetailFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/collectorDetailFragment"
+        android:name="com.appsmoviles.grupo15.vinilos_app.ui.CollectorDetailFragment"
+        android:label="Detalle de Coleccionista"
+        tools:layout="@layout/collector_detail_fragment">
+        <argument
+            android:name="collectorId"
+            app:argType="integer" />
     </fragment>
 
     <action
@@ -64,5 +78,4 @@
         app:destination="@id/roleSelectionFragment"
         app:popUpTo="@id/roleSelectionFragment"
         app:popUpToInclusive="true" />
-
 </navigation>

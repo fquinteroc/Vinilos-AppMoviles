@@ -19,9 +19,22 @@ class CollectorViewModel(application: Application) : AndroidViewModel(applicatio
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> get() = _isLoading
 
+    private val _eventNetworkError = MutableLiveData<Boolean>(false)
+    val eventNetworkError: LiveData<Boolean> get() = _eventNetworkError
+
+    private val _isNetworkErrorShown = MutableLiveData<Boolean>(false)
+    val isNetworkErrorShown: LiveData<Boolean> get() = _isNetworkErrorShown
+
+    private val _networkErrorMessage = MutableLiveData<String?>()
+    val networkErrorMessage: LiveData<String?> get() = _networkErrorMessage
+
     private val collectorRepository = CollectorRepository(application)
 
-    fun fetchCollectors() {
+    init {
+        refreshDataFromNetwork()
+    }
+
+    private fun refreshDataFromNetwork() {
         _isLoading.value = true
         viewModelScope.launch {
             try {
@@ -29,11 +42,27 @@ class CollectorViewModel(application: Application) : AndroidViewModel(applicatio
                     collectorRepository.refreshData()
                 }
                 _collectors.postValue(collectors)
+                _eventNetworkError.postValue(false)
+                _isNetworkErrorShown.postValue(false)
             } catch (e: Exception) {
                 _collectors.postValue(emptyList())
+                _eventNetworkError.postValue(true)
+                _networkErrorMessage.postValue("Error al cargar el listado de coleccionistas, por favor intenta de nuevo.")
             } finally {
                 _isLoading.postValue(false)
             }
         }
+    }
+
+    fun fetchCollectors() {
+        refreshDataFromNetwork()
+    }
+
+    fun onNetworkErrorShown() {
+        _isNetworkErrorShown.value = true
+    }
+
+    fun resetNetworkErrorMessage() {
+        _networkErrorMessage.value = null
     }
 }

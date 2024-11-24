@@ -16,4 +16,14 @@ interface CollectorsDao {
 
     @Query("DELETE FROM collectors_table")
     suspend fun deleteAll()
+
+    @Query("SELECT * FROM collectors_table WHERE id = :collectorId LIMIT 1")
+    suspend fun getCollectorById(collectorId: Int): Collector?
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertCollector(collector: Collector)
+
+    @Query("DELETE FROM collectors_table WHERE id = :collectorId")
+    suspend fun deleteCollectorById(collectorId: Int)
+
 }

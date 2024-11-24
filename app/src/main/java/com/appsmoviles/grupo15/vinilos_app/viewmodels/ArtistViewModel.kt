@@ -41,13 +41,16 @@ class ArtistViewModel(application: Application) : AndroidViewModel(application) 
                 val artists = withContext(Dispatchers.IO) {
                     artistRepository.refreshData()
                 }
+                if (artists.isEmpty()) {
+                    _networkErrorMessage.postValue("No hay datos disponibles.")
+                }
                 _artists.postValue(artists)
                 _eventNetworkError.postValue(false)
                 _isNetworkErrorShown.postValue(false)
             } catch (e: Exception) {
                 _artists.postValue(emptyList())
                 _eventNetworkError.postValue(true)
-                _networkErrorMessage.postValue("Error al cargar el listado de artistas, por favor intenta de nuevo.")
+                _networkErrorMessage.postValue("Error al cargar los artistas, por favor intenta de nuevo.")
             } finally {
                 _isLoading.postValue(false)
             }
