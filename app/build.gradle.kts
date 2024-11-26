@@ -92,4 +92,5 @@ dependencies {
     implementation(libs.room.runtime)
     ksp(libs.room.compiler)
     androidTestImplementation(libs.room.testing)
+    androidTestImplementation(libs.faker)
 }

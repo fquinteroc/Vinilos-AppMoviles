@@ -24,6 +24,7 @@ ksp = "1.9.0-1.0.13"
 cardview = "1.0.0"
 firebaseCrashlyticsBuildtools = "3.0.2"
 swiperefreshlayout = "1.1.0"
+faker = "1.0.2"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -59,6 +60,7 @@ room-testing = { group = "androidx.room", name = "room-testing", version.ref = "
 androidx-cardview = { group = "androidx.cardview", name = "cardview", version.ref = "cardview" }
 firebase-crashlytics-buildtools = { group = "com.google.firebase", name = "firebase-crashlytics-buildtools", version.ref = "firebaseCrashlyticsBuildtools" }
 androidx-swiperefreshlayout = { group = "androidx.swiperefreshlayout", name = "swiperefreshlayout", version.ref = "swiperefreshlayout" }
+faker = { group = "com.github.javafaker", name = "javafaker", version.ref = "faker" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
