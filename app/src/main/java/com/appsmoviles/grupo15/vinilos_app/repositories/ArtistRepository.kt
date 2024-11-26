@@ -10,11 +10,13 @@ class ArtistRepository(private val application: Application) {
     private val artistsDao = VinilosRoomDatabase.getDatabase(application).artistsDao()
 
     suspend fun refreshData(): List<Artist> {
-        val cachedArtists = artistsDao.getArtists()
-        return cachedArtists.ifEmpty {
+        return try {
             val artists = NetworkServiceAdapter.getInstance(application).getArtists()
+            artistsDao.deleteAll()
             artistsDao.insertAll(artists)
             artists
+        } catch (e: Exception) {
+            artistsDao.getArtists()
         }
     }
 }

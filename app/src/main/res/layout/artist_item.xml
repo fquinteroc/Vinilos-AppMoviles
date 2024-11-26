@@ -36,6 +36,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
+                android:contentDescription="@{artist.name != null ? `Imagen del artista ` + artist.name : `Imagen del artista`}"
                 tools:src="@drawable/ic_user" />
 
             <TextView

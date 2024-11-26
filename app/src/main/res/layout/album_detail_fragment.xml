@@ -7,47 +7,55 @@
             type="com.appsmoviles.grupo15.vinilos_app.models.Album" />
     </data>
 
-    <FrameLayout
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefreshLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/lightGrayBackground">
+        android:layout_height="match_parent">
 
-        <ProgressBar
-            android:id="@+id/progressBar"
-            style="?android:attr/progressBarStyleLarge"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:background="@color/lightGrayBackground"
-            android:visibility="gone" />
-
-        <ScrollView
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:fillViewport="true"
+            android:background="@color/lightGrayBackground">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:padding="16dp">
+
+                <!-- ProgressBar -->
+                <ProgressBar
+                    android:id="@+id/progressBar"
+                    style="?android:attr/progressBarStyleLarge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:visibility="gone"
+                    android:layout_marginBottom="16dp" />
+
+                <!-- Imagen de portada -->
                 <ImageView
                     android:id="@+id/albumCover"
                     android:layout_width="match_parent"
                     android:layout_height="250dp"
                     android:layout_marginBottom="16dp"
+                    android:contentDescription='@{"Portada del álbum " + album.name}'
                     android:scaleType="centerCrop"
                     app:srcCompat="@drawable/ic_logo" />
 
+                <!-- Nombre del álbum -->
                 <TextView
                     android:id="@+id/albumName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@{album.name}"
-                    android:textSize="26sp"
+                    android:textSize="28sp"
                     android:textStyle="bold"
                     android:layout_marginBottom="8dp"
                     android:textColor="@color/darkGrayPrimary" />
 
+                <!-- Fecha de lanzamiento -->
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -64,6 +72,8 @@
                     android:layout_marginBottom="16dp"
                     android:textSize="16sp"
                     android:textColor="@color/darkGrayPrimary" />
+
+                <!-- Género -->
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -80,6 +90,8 @@
                     android:layout_marginBottom="16dp"
                     android:textSize="16sp"
                     android:textColor="@color/darkGrayPrimary" />
+
+                <!-- Sello discográfico -->
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -96,6 +108,8 @@
                     android:layout_marginBottom="16dp"
                     android:textSize="16sp"
                     android:textColor="@color/darkGrayPrimary" />
+
+                <!-- Descripción -->
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -112,7 +126,59 @@
                     android:layout_marginBottom="16dp"
                     android:textSize="16sp"
                     android:textColor="@color/darkGrayPrimary" />
+
+                <!-- Sección de canciones -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginBottom="8dp">
+
+                    <!-- Título -->
+                    <TextView
+                        android:id="@+id/tracksTitle"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Canciones"
+                        android:textStyle="bold"
+                        android:textSize="18sp"
+                        android:textColor="@color/mediumGraySecondary" />
+
+                    <!-- Botón de agregar canción -->
+                    <ImageButton
+                        android:id="@+id/addTrackButton"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/ic_add_track"
+                        android:contentDescription="@string/add_track"
+                        android:background="@android:color/transparent"
+                        android:layout_marginStart="8dp"
+                        app:tint="@color/primaryGray" />
+                </LinearLayout>
+
+                <!-- Lista de canciones -->
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/tracksRecyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:nestedScrollingEnabled="false"
+                    android:layout_marginBottom="16dp" />
+
+                <!-- Mensaje si no hay canciones -->
+                <TextView
+                    android:id="@+id/noTracksMessage"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:layout_marginTop="16dp"
+                    android:padding="16dp"
+                    android:text="No hay canciones asociadas a este álbum."
+                    android:textSize="16sp"
+                    android:textColor="@color/mediumGraySecondary"
+                    android:visibility="gone" />
             </LinearLayout>
-        </ScrollView>
-    </FrameLayout>
+        </androidx.core.widget.NestedScrollView>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 </layout>

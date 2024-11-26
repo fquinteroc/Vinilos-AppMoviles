@@ -1,0 +1,173 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="collector"
+            type="com.appsmoviles.grupo15.vinilos_app.models.Collector" />
+    </data>
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefreshLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/lightGrayBackground">
+
+            <ProgressBar
+                android:id="@+id/progressBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:visibility="gone"
+                android:indeterminateTint="@color/mediumGraySecondary" />
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="16dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:background="@color/surface"
+                        android:padding="16dp"
+                        android:layout_marginBottom="16dp"
+                        android:elevation="2dp"
+                        android:clipToPadding="false">
+
+                        <TextView
+                            android:id="@+id/collectorName"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@{collector.name}"
+                            android:textSize="20sp"
+                            android:textStyle="bold"
+                            android:textColor="@color/textPrimary"
+                            tools:text="Nombre: John Doe" />
+
+                        <TextView
+                            android:id="@+id/collectorEmail"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text='@{"Correo: " + collector.email}'
+                            android:textSize="16sp"
+                            android:textColor="@color/textSecondary"
+                            tools:text="Correo: johndoe@example.com" />
+
+                        <TextView
+                            android:id="@+id/collectorPhone"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text='@{"Teléfono: " + collector.telephone}'
+                            android:textSize="16sp"
+                            android:textColor="@color/textSecondary"
+                            tools:text="Teléfono: +1 123 456 7890" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Artistas Favoritos"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/mediumGraySecondary"
+                        android:layout_marginBottom="8dp" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/favoriteArtistsRecyclerView"
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        android:padding="8dp"
+                        android:elevation="2dp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center"
+                        android:padding="8dp">
+
+                        <ProgressBar
+                            android:id="@+id/artistProgressBar"
+                            style="?android:attr/progressBarStyleHorizontal"
+                            android:layout_width="0dp"
+                            android:layout_height="2dp"
+                            android:layout_weight="1"
+                            android:progress="20"
+                            android:max="100"
+                            android:progressTint="@color/darkGray" />
+
+                        <TextView
+                            android:id="@+id/artistPositionIndicator"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:textColor="@color/darkGray"
+                            android:text="1 / *"
+                            android:paddingLeft="8dp" />
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/mediumGraySecondary"
+                        android:layout_marginBottom="16dp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Álbumes"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/mediumGraySecondary"
+                        android:layout_marginBottom="8dp" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/collectorAlbumsRecyclerView"
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        android:padding="8dp"
+                        android:elevation="2dp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center"
+                        android:padding="8dp">
+
+                        <ProgressBar
+                            android:id="@+id/albumProgressBar"
+                            style="?android:attr/progressBarStyleHorizontal"
+                            android:layout_width="0dp"
+                            android:layout_height="2dp"
+                            android:layout_weight="1"
+                            android:progress="10"
+                            android:max="100"
+                            android:progressTint="@color/darkGray" />
+
+                        <TextView
+                            android:id="@+id/albumPositionIndicator"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:textColor="@color/darkGray"
+                            android:text="1 / *"
+                            android:paddingLeft="8dp" />
+                    </LinearLayout>
+                </LinearLayout>
+            </ScrollView>
+        </FrameLayout>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+</layout>

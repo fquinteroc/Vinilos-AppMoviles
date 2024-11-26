@@ -74,6 +74,8 @@ dependencies {
     implementation(libs.androidx.navigation.ui.ktx)
     implementation(libs.androidx.espresso.contrib)
     implementation(libs.androidx.cardview)
+    implementation(libs.firebase.crashlytics.buildtools)
+    implementation(libs.androidx.swiperefreshlayout)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -85,8 +87,10 @@ dependencies {
     annotationProcessor(libs.glide.compiler)
     implementation(libs.kotlinx.coroutines.android)
 
+
     implementation(libs.room.ktx)
     implementation(libs.room.runtime)
     ksp(libs.room.compiler)
     androidTestImplementation(libs.room.testing)
+    androidTestImplementation(libs.faker)
 }

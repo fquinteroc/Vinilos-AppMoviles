@@ -16,6 +16,7 @@ import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
 import com.appsmoviles.grupo15.vinilos_app.models.Collector
+import com.appsmoviles.grupo15.vinilos_app.models.Track
 
 class NetworkServiceAdapter constructor(context: Context) {
     companion object{
@@ -207,6 +208,149 @@ class NetworkServiceAdapter constructor(context: Context) {
             },
             Response.ErrorListener {
                 cont.resumeWithException(it)
+            }
+        ))
+    }
+
+    suspend fun getCollectorDetail(collectorId: Int): Collector = suspendCoroutine { cont ->
+        requestQueue.add(getRequest("collectors/$collectorId",
+            Response.Listener<String> { response ->
+                try {
+                    val item = JSONObject(response)
+                    val collector = Collector(
+                        id = item.getInt("id"),
+                        name = item.getString("name"),
+                        telephone = item.getString("telephone"),
+                        email = item.getString("email")
+                    )
+                    cont.resume(collector)
+                } catch (e: Exception) {
+                    cont.resumeWithException(e)
+                }
+            },
+            Response.ErrorListener {
+                cont.resumeWithException(it)
+            }
+        ))
+    }
+
+    suspend fun getCollectorArtists(collectorId: Int): List<Artist> = suspendCoroutine { cont ->
+        requestQueue.add(getRequest("collectors/$collectorId/performers",
+            Response.Listener<String> { response ->
+                try {
+                    val resp = JSONArray(response)
+                    val artists = mutableListOf<Artist>()
+                    for (i in 0 until resp.length()) {
+                        val item = resp.getJSONObject(i)
+                        artists.add(
+                            Artist(
+                                artistId = item.getInt("id"),
+                                name = item.getString("name"),
+                                image = item.getString("image"),
+                                description = item.getString("description"),
+                                birthDate = item.optString("creationDate", "Desconocido")
+                            )
+                        )
+                    }
+                    cont.resume(artists)
+                } catch (e: Exception) {
+                    cont.resumeWithException(e)
+                }
+            },
+            Response.ErrorListener {
+                cont.resumeWithException(it)
+            }
+        ))
+    }
+
+
+    suspend fun getCollectorAlbums(collectorId: Int): List<Album> = suspendCoroutine { cont ->
+        requestQueue.add(getRequest("collectors/$collectorId/albums",
+            Response.Listener<String> { response ->
+                try {
+                    val resp = JSONArray(response)
+                    val albums = mutableListOf<Album>()
+                    for (i in 0 until resp.length()) {
+                        val item = resp.getJSONObject(i)
+                        val album = item.getJSONObject("album")
+                        albums.add(
+                            Album(
+                                albumId = album.getInt("id"),
+                                name = album.getString("name"),
+                                cover = album.getString("cover"),
+                                releaseDate = album.getString("releaseDate"),
+                                description = album.getString("description"),
+                                genre = album.getString("genre"),
+                                recordLabel = album.getString("recordLabel")
+                            )
+                        )
+                    }
+                    cont.resume(albums)
+                } catch (e: Exception) {
+                    cont.resumeWithException(e)
+                }
+            },
+            Response.ErrorListener {
+                cont.resumeWithException(it)
+            }
+        ))
+    }
+
+    suspend fun createAlbum(album: Album): Unit = suspendCoroutine { cont ->
+        val body = JSONObject().apply {
+            put("name", album.name)
+            put("releaseDate", album.releaseDate)
+            put("description", album.description)
+            put("genre", album.genre)
+            put("recordLabel", album.recordLabel)
+            put("cover", album.cover)
+        }
+
+        requestQueue.add(postRequest("albums", body,
+            Response.Listener {
+                cont.resume(Unit)
+            },
+            Response.ErrorListener {
+                cont.resumeWithException(it)
+            }
+        ))
+    }
+
+    suspend fun getAlbumTracks(albumId: Int): List<Track> = suspendCoroutine { cont ->
+        requestQueue.add(getRequest("albums/$albumId/tracks",
+            Response.Listener<String> { response ->
+                try {
+                    val resp = JSONArray(response)
+                    val tracks = mutableListOf<Track>()
+                    for (i in 0 until resp.length()) {
+                        val item = resp.getJSONObject(i)
+                        tracks.add(
+                            Track(
+                                id = item.getInt("id"),
+                                name = item.getString("name"),
+                                duration = item.getString("duration")
+                            )
+                        )
+                    }
+                    cont.resume(tracks)
+                } catch (e: Exception) {
+                    cont.resumeWithException(e)
+                }
+            },
+            Response.ErrorListener {
+                cont.resumeWithException(it)
+            }
+        ))
+    }
+
+    fun postTrack(body: JSONObject, albumId: Int, onComplete: (resp: JSONObject) -> Unit, onError: (error: VolleyError) -> Unit) {
+        requestQueue.add(postRequest("albums/$albumId/tracks",
+            body,
+            Response.Listener<JSONObject> { response ->
+                onComplete(response)
+            },
+            Response.ErrorListener {
+                onError(it)
             }
         ))
     }
