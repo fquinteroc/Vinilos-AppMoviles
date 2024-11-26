@@ -1,6 +1,7 @@
 package com.appsmoviles.grupo15.vinilos_app.ui
 
 import android.os.Bundle
+import android.util.Patterns
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -39,30 +40,19 @@ class CreateAlbumFragment : Fragment() {
         binding.actvRecordLabel.setAdapter(recordLabelAdapter)
 
         binding.btnSaveAlbum.setOnClickListener {
-            val selectedGenre = binding.actvGenre.text.toString()
-            val selectedRecordLabel = binding.actvRecordLabel.text.toString()
+            if (validateInputs()) {
+                val album = Album(
+                    albumId = 0,
+                    name = binding.etName.text.toString(),
+                    releaseDate = binding.etReleaseDate.text.toString(),
+                    description = binding.etDescription.text.toString(),
+                    genre = binding.actvGenre.text.toString(),
+                    recordLabel = binding.actvRecordLabel.text.toString(),
+                    cover = binding.etCoverUrl.text.toString()
+                )
 
-            if (selectedGenre.isEmpty() || !genres.contains(selectedGenre)) {
-                Toast.makeText(context, "Por favor selecciona un género válido", Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
+                createAlbumViewModel.createAlbum(album)
             }
-
-            if (selectedRecordLabel.isEmpty() || !recordLabels.contains(selectedRecordLabel)) {
-                Toast.makeText(context, "Por favor selecciona un sello discográfico válido", Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
-            }
-
-            val album = Album(
-                albumId = 0,
-                name = binding.etName.text.toString(),
-                releaseDate = binding.etReleaseDate.text.toString(),
-                description = binding.etDescription.text.toString(),
-                genre = selectedGenre,
-                recordLabel = selectedRecordLabel,
-                cover = binding.etCoverUrl.text.toString()
-            )
-
-            createAlbumViewModel.createAlbum(album)
         }
 
         setupObservers()
@@ -81,5 +71,63 @@ class CreateAlbumFragment : Fragment() {
                 Toast.makeText(context, it, Toast.LENGTH_LONG).show()
             }
         }
+    }
+
+    private fun validateInputs(): Boolean {
+        var isValid = true
+
+        // Validar nombre del álbum
+        if (binding.etName.text.isNullOrBlank()) {
+            binding.tilName.error = "El nombre del álbum es obligatorio"
+            isValid = false
+        } else {
+            binding.tilName.error = null
+        }
+
+        // Validar fecha de lanzamiento
+        val releaseDate = binding.etReleaseDate.text.toString()
+        if (!releaseDate.matches(Regex("\\d{4}-\\d{2}-\\d{2}"))) {
+            binding.tilReleaseDate.error = "La fecha debe tener el formato YYYY-MM-DD"
+            isValid = false
+        } else {
+            binding.tilReleaseDate.error = null
+        }
+
+        // Validar descripción
+        if (binding.etDescription.text.isNullOrBlank()) {
+            binding.tilDescription.error = "La descripción es obligatoria"
+            isValid = false
+        } else {
+            binding.tilDescription.error = null
+        }
+
+        // Validar género
+        val selectedGenre = binding.actvGenre.text.toString()
+        if (selectedGenre.isEmpty() || !listOf("Classical", "Salsa", "Rock", "Folk").contains(selectedGenre)) {
+            binding.tilGenre.error = "Selecciona un género válido"
+            isValid = false
+        } else {
+            binding.tilGenre.error = null
+        }
+
+        // Validar sello discográfico
+        val selectedRecordLabel = binding.actvRecordLabel.text.toString()
+        if (selectedRecordLabel.isEmpty() || !listOf("Sony Music", "EMI", "Discos Fuentes", "Elektra", "Fania Records").contains(selectedRecordLabel)) {
+            binding.tilRecordLabel.error = "Selecciona un sello discográfico válido"
+            isValid = false
+        } else {
+            binding.tilRecordLabel.error = null
+        }
+
+        // Validar URL de la portada
+        val coverUrl = binding.etCoverUrl.text.toString()
+        if (!Patterns.WEB_URL.matcher(coverUrl).matches()) {
+            binding.tilCoverUrl.error = "Introduce una URL válida"
+            isValid = false
+        } else {
+            binding.tilCoverUrl.error = null
+        }
+
+        return isValid
     }
 }
