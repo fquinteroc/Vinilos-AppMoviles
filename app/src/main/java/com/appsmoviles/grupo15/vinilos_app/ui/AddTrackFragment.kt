@@ -1,6 +1,7 @@
 package com.appsmoviles.grupo15.vinilos_app.ui
 
 import android.os.Bundle
+import android.util.Patterns
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -30,14 +31,24 @@ class AddTrackFragment : Fragment() {
         val albumId = arguments?.getInt("albumId") ?: return
 
         binding.addTrackButton.setOnClickListener {
-            val trackName = binding.trackNameEditText.text.toString()
-            val trackDuration = binding.trackDurationEditText.text.toString()
+            val trackName = binding.trackNameEditText.text.toString().trim()
+            val trackDuration = binding.trackDurationEditText.text.toString().trim()
 
-            if (trackName.isEmpty() || trackDuration.isEmpty()) {
-                Toast.makeText(context, "Todos los campos son obligatorios", Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
+            // Validaciones de los campos
+            when {
+                trackName.isEmpty() -> {
+                    binding.trackNameEditText.error = "El nombre de la canción es obligatorio"
+                    return@setOnClickListener
+                }
+                trackDuration.isEmpty() -> {
+                    binding.trackDurationEditText.error = "La duración de la canción es obligatoria"
+                    return@setOnClickListener
+                }
+                !isValidDurationFormat(trackDuration) -> {
+                    binding.trackDurationEditText.error = "El formato de duración debe ser MM:SS"
+                    return@setOnClickListener
+                }
             }
-
             viewModel.addTrackToAlbum(albumId, trackName, trackDuration)
         }
 
@@ -49,5 +60,10 @@ class AddTrackFragment : Fragment() {
                 Toast.makeText(context, "Error al agregar la canción", Toast.LENGTH_SHORT).show()
             }
         }
+    }
+
+    private fun isValidDurationFormat(duration: String): Boolean {
+        val durationRegex = "^\\d{2}:\\d{2}$".toRegex()
+        return duration.matches(durationRegex)
     }
 }

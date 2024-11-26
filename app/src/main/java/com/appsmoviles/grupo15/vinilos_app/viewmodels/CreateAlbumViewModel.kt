@@ -26,7 +26,7 @@ class CreateAlbumViewModel(application: Application) : AndroidViewModel(applicat
                 _isSuccess.postValue(true)
             } catch (e: Exception) {
                 _isSuccess.postValue(false)
-                _errorMessage.postValue("Error al crear el álbum: ${e.message}")
+                _errorMessage.postValue("Error al crear el álbum. Por favor, inténtalo de nuevo.")
             }
         }
     }
