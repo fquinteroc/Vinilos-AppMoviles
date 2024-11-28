@@ -3,17 +3,23 @@
     <item
         android:id="@+id/albumFragment"
         android:title="Álbumes"
-        android:icon="@drawable/ic_album" />
+        android:icon="@drawable/ic_album"
+        android:contentDescription="Explora todos los álbumes disponibles" />
     <item
         android:id="@+id/artistFragment"
         android:title="Artistas"
-        android:icon="@drawable/ic_artist" />
+        android:icon="@drawable/ic_artist"
+        android:contentDescription="Consulta la lista de artistas destacados" />
+
     <item
         android:id="@+id/collectorFragment"
         android:title="Coleccionistas"
-        android:icon="@drawable/ic_user" />
+        android:icon="@drawable/ic_user"
+        android:contentDescription="Accede a la sección de coleccionistas registrados" />
+
     <item
         android:id="@+id/nav_logout"
         android:title="Cerrar sesión"
-        android:icon="@drawable/ic_logout" />
+        android:icon="@drawable/ic_logout"
+        android:contentDescription="Salir de tu cuenta en la aplicación" />
 </menu>

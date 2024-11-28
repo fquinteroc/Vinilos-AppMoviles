@@ -34,10 +34,9 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
                 android:background="#212121"
-                app:itemIconTint="#B0BEC5"
-                app:itemTextColor="#B0BEC5"
+                app:itemIconTint="@color/bottom_nav_icon_selector"
+                app:itemTextColor="@color/white"
                 app:labelVisibilityMode="labeled"
-                app:itemRippleColor="#757575"
                 app:menu="@menu/bottom_nav_menu" />
         </LinearLayout>
 

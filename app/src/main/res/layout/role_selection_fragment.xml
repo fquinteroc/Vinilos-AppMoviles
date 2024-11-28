@@ -8,7 +8,7 @@
 
     <!-- Título de bienvenida -->
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/bienvenido_a_vinilos"
         android:textSize="28sp"
@@ -17,7 +17,10 @@
         android:gravity="center"
         android:letterSpacing="0.05"
         android:textStyle="bold"
-        android:layout_marginBottom="16dp" />
+        android:layout_marginBottom="16dp"
+        android:ellipsize="none"
+        android:maxLines="3"
+        android:importantForAccessibility="yes" />
 
     <ImageView
         android:layout_width="150dp"
@@ -28,18 +31,21 @@
         android:contentDescription="@string/logo_app" />
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/accede_como"
         android:textSize="20sp"
         android:textColor="@color/darkGrayPrimary"
         android:fontFamily="sans-serif"
         android:layout_marginTop="24dp"
-        android:gravity="center" />
+        android:gravity="center"
+        android:ellipsize="none"
+        android:maxLines="2"
+        android:importantForAccessibility="yes" />
 
     <Button
         android:id="@+id/button_usuario"
-        android:layout_width="250dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/usuario"
         android:textColor="@color/white"
@@ -52,7 +58,7 @@
 
     <Button
         android:id="@+id/button_coleccionista"
-        android:layout_width="250dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/coleccionista"
         android:textColor="@color/white"
