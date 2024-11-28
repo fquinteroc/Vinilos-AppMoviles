@@ -18,6 +18,7 @@ import androidx.test.espresso.ViewAction;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.LargeTest;
+
 import com.appsmoviles.grupo15.vinilos_app.ui.MainActivity;
 
 import org.hamcrest.Matcher;
@@ -32,9 +33,9 @@ public class TestE2EHU003 {
     @Rule
     public ActivityScenarioRule<MainActivity> mActivityTestRule = new ActivityScenarioRule<>(MainActivity.class);
 
-    // Escenario 1: Acceder a la pantalla de artistas desde el menú inferior
+    // Verificar que el usuario puede acceder a la lista de artistas desde el menú inferior
     @Test
-    public void TestArtistListScenario1() {
+    public void testWhenUserNavigatesToArtistsThenShowArtistList() {
         // Verificar que el título de bienvenida está visible
         onView(withText("Bienvenido a Vinilos")).check(matches(isDisplayed()));
 
@@ -51,9 +52,9 @@ public class TestE2EHU003 {
         onView(withId(R.id.artistsRecyclerView)).check(matches(isDisplayed()));
     }
 
-    // Escenario 2: Verificar elementos del listado de artistas
+    // Verificar que cada artista en la lista tiene datos visibles (imagen, nombre, descripción)
     @Test
-    public void TestArtistListScenario2() {
+    public void testWhenArtistListLoadedThenShowArtistDetails() {
         // Seleccionar "Usuario" para ingresar a la aplicación
         onView(withId(R.id.button_usuario)).perform(click());
 
@@ -61,7 +62,7 @@ public class TestE2EHU003 {
         onView(withId(R.id.bottom_nav_artist)).perform(click());
 
         // Esperar 3 segundos para dar tiempo a los datos de cargarse
-        onView(isRoot()).perform(waitFor(3000));
+        onView(isRoot()).perform(waitFor(5000));
 
         onView(withId(R.id.artistsRecyclerView)).check(matches(isDisplayed()));
 
@@ -77,9 +78,9 @@ public class TestE2EHU003 {
         }
     }
 
-    // Escenario 3: Verificar el indicador de carga (ProgressBar)
+    // Verificar que el indicador de carga (ProgressBar) se muestra mientras los datos están cargando
     @Test
-    public void TestArtistListScenario3() {
+    public void testWhenLoadingArtistListThenShowLoadingIndicator() {
         // Seleccionar "Usuario" para ingresar a la aplicación
         onView(withId(R.id.button_usuario)).perform(click());
 
@@ -97,9 +98,9 @@ public class TestE2EHU003 {
         onView(withId(R.id.artistsRecyclerView)).check(matches(isDisplayed()));
     }
 
-    // Escenario 4: Verificar interacción con un artista
+    // Verificar que el usuario puede interactuar con un artista y ver su detalle
     @Test
-    public void TestArtistListScenario4() {
+    public void testWhenUserClicksOnArtistThenShowArtistDetails() {
         try {
             // Seleccionar "Usuario" para ingresar a la aplicación
             onView(withId(R.id.button_usuario)).perform(click());
@@ -108,7 +109,7 @@ public class TestE2EHU003 {
             onView(withId(R.id.bottom_nav_artist)).perform(click());
 
             // Esperar 3 segundos para dar tiempo a que los datos se carguen
-            onView(isRoot()).perform(waitFor(3000));
+            onView(isRoot()).perform(waitFor(5000));
 
             // Hacer clic en el primer artista de la lista
             onView(withId(R.id.artistsRecyclerView)).perform(actionOnItemAtPosition(0, click()));
