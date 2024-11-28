@@ -63,7 +63,7 @@
                     android:textStyle="bold"
                     android:textSize="14sp"
                     android:layout_marginBottom="4dp"
-                    android:textColor="@color/mediumGraySecondary" />
+                    android:textColor="@color/black" />
                 <TextView
                     android:id="@+id/albumReleaseDate"
                     android:layout_width="wrap_content"
@@ -81,7 +81,7 @@
                     android:textStyle="bold"
                     android:textSize="14sp"
                     android:layout_marginBottom="4dp"
-                    android:textColor="@color/mediumGraySecondary" />
+                    android:textColor="@color/black" />
                 <TextView
                     android:id="@+id/albumGenre"
                     android:layout_width="wrap_content"
@@ -99,7 +99,7 @@
                     android:textStyle="bold"
                     android:textSize="14sp"
                     android:layout_marginBottom="4dp"
-                    android:textColor="@color/mediumGraySecondary" />
+                    android:textColor="@color/black" />
                 <TextView
                     android:id="@+id/albumRecordLabel"
                     android:layout_width="wrap_content"
@@ -117,7 +117,7 @@
                     android:textStyle="bold"
                     android:textSize="14sp"
                     android:layout_marginBottom="4dp"
-                    android:textColor="@color/mediumGraySecondary" />
+                    android:textColor="@color/black" />
                 <TextView
                     android:id="@+id/albumDescription"
                     android:layout_width="match_parent"
@@ -144,18 +144,20 @@
                         android:text="Canciones"
                         android:textStyle="bold"
                         android:textSize="18sp"
-                        android:textColor="@color/mediumGraySecondary" />
+                        android:textColor="@color/black" />
 
                     <!-- Botón de agregar canción -->
                     <ImageButton
                         android:id="@+id/addTrackButton"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
                         android:src="@drawable/ic_add_track"
                         android:contentDescription="@string/add_track"
                         android:background="@android:color/transparent"
                         android:layout_marginStart="8dp"
+                        android:padding="4dp"
                         app:tint="@color/primaryGray" />
+
                 </LinearLayout>
 
                 <!-- Lista de canciones -->
@@ -176,7 +178,7 @@
                     android:padding="16dp"
                     android:text="No hay canciones asociadas a este álbum."
                     android:textSize="16sp"
-                    android:textColor="@color/mediumGraySecondary"
+                    android:textColor="@color/black"
                     android:visibility="gone" />
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>

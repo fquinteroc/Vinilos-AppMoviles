@@ -2,17 +2,24 @@
     <item
         android:id="@+id/bottom_nav_album"
         android:icon="@drawable/ic_album"
-        android:title="Álbumes" />
+        android:title="Álbumes"
+        android:contentDescription="Navegar a la sección de álbumes" />
+
     <item
         android:id="@+id/bottom_nav_artist"
         android:icon="@drawable/ic_artist"
-        android:title="Artistas" />
+        android:title="Artistas"
+        android:contentDescription="Navegar a la sección de artistas" />
+
     <item
         android:id="@+id/bottom_nav_collector"
         android:icon="@drawable/ic_user"
-        android:title="Coleccionistas" />
+        android:title="Coleccionistas"
+        android:contentDescription="Navegar a la sección de coleccionistas" />
+
     <item
         android:id="@+id/bottom_nav_logout"
         android:title="Cerrar sesión"
-        android:icon="@drawable/ic_logout" />
+        android:icon="@drawable/ic_logout"
+        android:contentDescription="Cerrar sesión de la aplicación" />
 </menu>

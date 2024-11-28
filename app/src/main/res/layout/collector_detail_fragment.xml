@@ -81,7 +81,7 @@
                         android:text="Artistas Favoritos"
                         android:textSize="16sp"
                         android:textStyle="bold"
-                        android:textColor="@color/mediumGraySecondary"
+                        android:textColor="@color/black"
                         android:layout_marginBottom="8dp" />
 
                     <androidx.recyclerview.widget.RecyclerView
@@ -130,7 +130,7 @@
                         android:text="Álbumes"
                         android:textSize="16sp"
                         android:textStyle="bold"
-                        android:textColor="@color/mediumGraySecondary"
+                        android:textColor="@color/black"
                         android:layout_marginBottom="8dp" />
 
                     <androidx.recyclerview.widget.RecyclerView
