@@ -2,12 +2,8 @@ package com.appsmoviles.grupo15.vinilos_app;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
-import static androidx.test.espresso.action.ViewActions.scrollTo;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
-import static androidx.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition;
-import static androidx.test.espresso.contrib.RecyclerViewActions.scrollToPosition;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static androidx.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
@@ -28,9 +24,9 @@ public class TestE2EHU005 {
     @Rule
     public ActivityScenarioRule<MainActivity> mActivityTestRule = new ActivityScenarioRule<>(MainActivity.class);
 
-    // Escenario 1: Acceder a la pantalla de coleccionistas desde el menú inferior
+    // Verificar que el usuario puede acceder a la lista de coleccionistas desde el menú inferior
     @Test
-    public void TestCollectorListScenario1() {
+    public void testWhenUserNavigatesToCollectorsThenShowCollectorList() {
         // Verificar que el título de bienvenida está visible
         onView(withText("Bienvenido a Vinilos")).check(matches(isDisplayed()));
 
@@ -54,9 +50,9 @@ public class TestE2EHU005 {
         onView(withId(R.id.collectorsRecyclerView)).check(matches(isDisplayed()));
     }
 
-    // Escenario 3: Verificar la visualización del indicador de carga (ProgressBar)
+    // Verificar que se muestra el indicador de carga mientras los datos de coleccionistas están cargando
     @Test
-    public void TestCollectorLoadingIndicator() {
+    public void testWhenLoadingCollectorListThenShowLoadingIndicator() {
         // Seleccionar "Usuario" para ingresar a la aplicación
         onView(withId(R.id.button_usuario)).perform(click());
 

@@ -63,7 +63,9 @@ public class TestE2EHU008 {
         // Paso 3: Navegar al módulo de álbumes desde el menú
         onView(withId(R.id.bottom_nav_album)).perform(click());
 
-        Thread.sleep(3000);
+        try {
+            Thread.sleep(5000);
+        }catch (InterruptedException e) { e.printStackTrace(); }
 
         // Paso 4: Verificar que estamos en el fragment de álbumes
         onView(withId(R.id.albumsRv)).check(matches(isDisplayed()));
@@ -84,7 +86,9 @@ public class TestE2EHU008 {
         onView(withId(R.id.trackNameEditText)).perform(replaceText(randomTrackName));
         onView(withId(R.id.trackDurationEditText)).perform(replaceText(randomTrackDuration));
 
-        Thread.sleep(2000);
+        try {
+            Thread.sleep(5000);
+        }catch (InterruptedException e) { e.printStackTrace(); }
 
         // Paso 10: Guardar el track
         onView(withId(R.id.addTrackButton)).perform(click());
