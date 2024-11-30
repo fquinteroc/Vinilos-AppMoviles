@@ -62,6 +62,10 @@ public class TestE2EHU007 {
         // Navegar al módulo de álbumes desde el menú
         onView(withId(R.id.bottom_nav_album)).perform(click());
 
+        try {
+            Thread.sleep(5000);
+        }catch (InterruptedException e) { e.printStackTrace(); }
+
         // Verificar que estamos en el fragment de álbumes
         onView(withId(R.id.albumsRv)).check(matches(isDisplayed()));
 
@@ -79,7 +83,10 @@ public class TestE2EHU007 {
         onView(withId(R.id.actvRecordLabel)).perform(replaceText(randomRecordLabel));
         onView(withId(R.id.etCoverUrl)).perform(replaceText(randomCoverUrl));
 
-        Thread.sleep(3000);
+        try {
+            Thread.sleep(5000);
+        }catch (InterruptedException e) { e.printStackTrace(); }
+
         // Guardar el álbum
         onView(withId(R.id.btnSaveAlbum)).perform(click());
     }

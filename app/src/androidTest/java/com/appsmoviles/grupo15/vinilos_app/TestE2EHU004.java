@@ -5,7 +5,6 @@ import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static androidx.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
@@ -26,9 +25,9 @@ public class TestE2EHU004 {
     @Rule
     public ActivityScenarioRule<MainActivity> mActivityTestRule = new ActivityScenarioRule<>(MainActivity.class);
 
-    // Escenario 1: Acceder al detalle de un artista desde el listado de artistas
+    // Verificar que el usuario puede acceder al detalle de un artista desde el listado
     @Test
-    public void TestArtistDetailScenario1() {
+    public void testWhenUserSelectsArtistThenShowArtistDetails() {
         // Verificar que el título de bienvenida está visible
         onView(withText("Bienvenido a Vinilos")).check(matches(isDisplayed()));
 
@@ -62,9 +61,9 @@ public class TestE2EHU004 {
         onView(withId(R.id.artistBirthDate)).check(matches(isDisplayed()));
     }
 
-    // Escenario 2: Verificar los elementos del detalle del artista
+    // Verificar que todos los elementos del detalle del artista son visibles
     @Test
-    public void TestArtistDetailScenario2() {
+    public void testWhenArtistDetailLoadedThenShowAllElements() {
         // Seleccionar "Usuario" para ingresar a la aplicación
         onView(withId(R.id.button_usuario)).perform(click());
 
@@ -89,9 +88,9 @@ public class TestE2EHU004 {
         onView(withId(R.id.artistBirthDate)).check(matches(isDisplayed()));
     }
 
-    // Escenario 3: Verificar la visualización del indicador de carga (ProgressBar)
+    // Verificar que se muestra el indicador de carga mientras se obtienen los datos
     @Test
-    public void TestArtistDetailLoadingIndicator() {
+    public void testWhenLoadingArtistDetailsThenShowLoadingIndicator() {
         // Seleccionar "Usuario" para ingresar a la aplicación
         onView(withId(R.id.button_usuario)).perform(click());
 

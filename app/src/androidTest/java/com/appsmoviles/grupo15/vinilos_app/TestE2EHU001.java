@@ -26,9 +26,10 @@ import org.junit.runner.RunWith;
 public class TestE2EHU001 {
     @Rule
     public ActivityScenarioRule<MainActivity> mActivityTestRule = new ActivityScenarioRule<>(MainActivity.class);
-    // Paso 1: Abrir la aplicación en el emulador de Android Studio.
+
+    // Verificar que el usuario puede acceder al catálogo de álbumes desde la pantalla inicial
     @Test
-    public void TestEscenario1() {
+    public void testWhenUserSelectsUsuarioThenShowAlbumsCatalog() {
         // Verifica que el título de bienvenida está visible
         onView(withText("Bienvenido a Vinilos")).check(matches(isDisplayed()));
 
@@ -49,8 +50,9 @@ public class TestE2EHU001 {
                 .check(matches(isDisplayed()));
     }
 
+    // Verificar que cada álbum tiene datos visibles y que el usuario puede seleccionar un álbum
     @Test
-    public void TestEscenario2() {
+    public void testWhenAlbumsLoadedThenShowDetailsAndAllowSelection() {
         // Verifica que el título de bienvenida está visible
         onView(withText("Bienvenido a Vinilos")).check(matches(isDisplayed()));
 
@@ -73,24 +75,27 @@ public class TestE2EHU001 {
         // Paso 4: Verificar que usuario puede hacer scroll
         onView((withId(R.id.albumsRv))).perform(scrollToPosition(2));
 
-        //Paso 5: Verificar que cada álbum contenga una imagen, nombre del álbum, nombre del artista y una breve descripción.
+        // Paso 5: Verificar que cada álbum contenga una imagen, nombre del álbum, nombre del artista y una breve descripción.
         try {
-            Thread.sleep(2000);
-        }catch (InterruptedException e) { e.printStackTrace(); }
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
-        for(int i=0; i<10;i++) {
+        for (int i = 0; i < 10; i++) {
             onView(withId(R.id.albumsRv)).perform(scrollToPosition(i));
             onView(withId(R.id.albumsRv)).check(matches(hasDescendant(withId(R.id.albumCover))));
             onView(withId(R.id.albumsRv)).check(matches(hasDescendant(withId(R.id.albumTitle))));
             onView(withId(R.id.albumsRv)).check(matches(hasDescendant(withId(R.id.albumDescription))));
         }
         // Paso 6: Verificar que el usuario puede hacer clic sobre el álbum deseado.
-        onView(withId(R.id.albumsRv)).perform(actionOnItemAtPosition(1,click()));
+        onView(withId(R.id.albumsRv)).perform(actionOnItemAtPosition(1, click()));
     }
 
+    // Verificar que se muestra el indicador de carga mientras se obtienen los datos
     @Test
-    public void TestEscenario4() {
-        //Paso 1: Abrir la aplicación en el emulador de Android Studio.
+    public void testWhenLoadingAlbumsThenShowLoadingIndicator() {
+        // Paso 1: Abrir la aplicación en el emulador de Android Studio.
         // Verifica que el título de bienvenida está visible
         onView(withText("Bienvenido a Vinilos")).check(matches(isDisplayed()));
 
@@ -98,7 +103,7 @@ public class TestE2EHU001 {
         onView(withText(R.string.accede_como))
                 .check(matches(isDisplayed()));
 
-        //Paso 2: Seleccionar el tipo usuario "Usuario" para ingresar a la aplicación.
+        // Paso 2: Seleccionar el tipo usuario "Usuario" para ingresar a la aplicación.
         // Verifica que el botón "Usuario" está visible
         onView(withId(R.id.button_usuario))
                 .check(matches(isDisplayed()));
@@ -121,5 +126,4 @@ public class TestE2EHU001 {
         onView(withId(R.id.albumsRv))
                 .check(matches(isDisplayed()));
     }
-
 }
